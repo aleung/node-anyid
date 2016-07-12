@@ -9,8 +9,9 @@ interface EncodeBuffer {
 }
 
 interface Codec {
-  encode: (buffer: EncodeBuffer) => string;
-  decode: (s: string) => number[];
+  encode(buffer: EncodeBuffer): string;
+  decode(s: string): number[];
+  bytesForLength(n: number): number;
 }
 
 function createCharset(s: string): string {

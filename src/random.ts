@@ -1,4 +1,4 @@
-import {AnyId} from './core';
+import {AnyId, Value, EncodeBuffer} from './core';
 
 declare module './core' {
   interface AnyId {
@@ -6,10 +6,16 @@ declare module './core' {
   }
 }
 
-export class Random {
-
-  random() {
+class RandomValue extends Value {
+  value(): EncodeBuffer {
     // TODO
+    return null;
+  }
+}
+
+export class Random {
+  random(this: AnyId): AnyId {
+    this.addValue(new RandomValue());
     return this;
   }
 }

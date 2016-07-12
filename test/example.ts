@@ -22,9 +22,9 @@ import {anyid} from '../src/index';
 /*
 const generator = anyid()
   .encode('bin')
-  .bit(41).time('ms').since(new Date('2016-1-1'))
-  .bit(12).seq().resetByTime();
-  .bit(10).fix(generatorId);
+  .bits(41).time('ms').since(new Date('2016-1-1'))
+  .bits(12).seq().resetByTime();
+  .bits(10).fix(generatorId);
 
 // Function value
 

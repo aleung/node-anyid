@@ -65,13 +65,13 @@ There are special encoding:
 Section can have fixed length or not. When length is specified, section will be trimmed or padded. For some kinds of value, e.g. random, length must be given.
 
 > **Hint** What length will be?
-> 
+>
 >     b: value bytes
 >     a: Charset size
 >     length ≧ logₐ256ᵇ = log₂ 256ᵇ / log₂ a = 8b / log₂ a
 >
-> For example: 
-> 
+> For example:
+>
 > Value is 4 bytes UInt32, charset is A-Za-z0-9 which has 62 characters.
 > `8 * 4 / log₂ 62 = 5.37`. Maximum length will be 6.
 
@@ -87,7 +87,7 @@ Value can be:
 - sequence
 
 A section may have more than one values. Values will be concatenated as bit stream before encoded.
-You can use `bit(n: number)` to specify the bit width of a value.
+You can use `bits(n: number)` to specify the bit width of a value.
 
 ### Fix value: `fix(n: number | Buffer | string)`
 
