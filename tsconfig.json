@@ -9,8 +9,11 @@
     "sourceMap": true
   },
   "files": [
+    "src/core.ts",
     "src/encode.ts",
     "src/index.ts",
+    "src/random.ts",
+    "src/time.ts",
     "test/example.ts",
     "test/test-encode.ts",
     "typings/index.d.ts"

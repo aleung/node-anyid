@@ -4,26 +4,22 @@ import {anyid} from '../src/index';
 
 {
   const generator = anyid().encode('Aa0').length(21).random();
-  const id = generator.id();
+  console.log(generator.id());
 }
 
 // Multiple sections, fix prefix
-/*
 
 {
   const generator = anyid()
     .encode('0A-IO')
-    .section(
-    anyid().fix(process.pid);
-  )
-  .delimiter('-')
-    .section(
-    anyid().time('ms'));
-  );
+    .section(anyid().fix(process.pid))
+    .delimiter('-')
+    .section(anyid().time('ms'));
+  console.log(generator.id());
 }
 
 // Time and sequence (Twitter Snowflake style)
-
+/*
 const generator = anyid()
   .encode('bin')
   .bit(41).time('ms').since(new Date('2016-1-1'))
