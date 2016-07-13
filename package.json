@@ -17,9 +17,12 @@
     "node": "^5.0.0"
   },
   "dependencies": {
+    "@types/base-x": "^1.0.27-alpha",
     "base-x": "^1.0.4"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.27-alpha",
+    "@types/mocha": "^2.2.26-alpha",
     "babel-preset-es2015-node5": "^1.1.1",
     "chai": "*",
     "del": "^2.2.0",
@@ -29,7 +32,6 @@
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-tsconfig-files": "0.4.0",
     "gulp-tsfmt": "^1.0.2",
     "gulp-tslint": "6.0.1",
     "gulp-typescript": "2.13.6",

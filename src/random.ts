@@ -1,3 +1,5 @@
+import * as assert from 'assert';
+import * as crypto from 'crypto';
 import {AnyId, Value, EncodeBuffer} from './core';
 
 declare module './core' {
@@ -8,8 +10,9 @@ declare module './core' {
 
 class RandomValue extends Value {
   value(): EncodeBuffer {
-    // TODO
-    return null;
+    const bits = this.getBits();
+    assert(bits, 'Length or bits must be set for random');
+    return crypto.randomBytes(Math.ceil(bits / 8));
   }
 }
 

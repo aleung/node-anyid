@@ -1,7 +1,10 @@
+
+# AnyID - ID generator
+
+_Under development_
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
 - [AnyID - ID generator](#anyid---id-generator)
   - [Encode](#encode)
   - [Length](#length)
@@ -23,12 +26,7 @@
     - [Multiple variable](#multiple-variable)
     - [Checksum](#checksum)
     - [Parse](#parse)
-
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# AnyID - ID generator
-
-_Under development_
 
     sdk3ksxjcs-JEDke3x8F-sldle34CZs
     ^         ^

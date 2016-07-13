@@ -1,17 +1,26 @@
 import * as assert from 'assert';
 import { EncodeBuffer, Codec, codec } from './encode';
 
-export {EncodeBuffer}
+export { EncodeBuffer }
 
 export abstract class Value {
   bits: number;
   parent: AnyId;
+
   abstract value(): EncodeBuffer;
+
+  protected getBits(): number {
+    if (this.bits) {
+      return this.bits;
+    } else {
+      return this.parent.sectionBitLength();
+    }
+  }
 }
 
 class Delimiter {
   constructor(private delimiter: string) { }
-  id() { return this.delimiter }
+  id() { return this.delimiter; }
 }
 
 export class AnyId {
@@ -33,6 +42,12 @@ export class AnyId {
 
 
   id(args?: {}): string {
+    if (this.hasValue()) {
+      // TODO: bit concatination
+      this._values.map((value) => value.value());
+      // TODO: trim/pad by length
+      return this._codec.encode(buf);
+    }
     return this._sections.map((section) => section.id(args)).join('');
   }
 
@@ -85,6 +100,6 @@ export class AnyId {
   }
 
   sectionBitLength(): number {
-    return this._length;
+    return this._length ? this._codec.bytesForLength(this._length) : undefined;
   }
 }

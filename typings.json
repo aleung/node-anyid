@@ -3,10 +3,6 @@
   "version": false,
   "dependencies": {},
   "globalDependencies": {
-    "base-x": "registry:dt/base-x#1.0.1+20160316155526",
-    "chai": "registry:dt/chai#3.4.0+20160601211834",
-    "lodash": "registry:dt/lodash#3.10.0+20160619033623",
-    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
     "node": "registry:env/node#6.0.0+20160622202520"
   }
 }

@@ -8,7 +8,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const del = require('del');
 const merge = require('merge-stream');
 const tsfmt = require('gulp-tsfmt');
-const tsconfigUpdate = require('gulp-tsconfig-files');
 const tslint = require("gulp-tslint");
 const istanbul = require('gulp-istanbul');
 const remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
@@ -50,12 +49,6 @@ gulp.task('clean', () => {
   return del(['lib', 'build', 'reports']);
 });
 
-// populate files array in tsconfig.json
-gulp.task('tsconfig:files', function () {
-  return gulp.src(tsCompileContext)
-    .pipe(tsconfigUpdate({ posix: true }));
-});
-
 // reformat TypeScript source code
 gulp.task('format', () => {
   return gulp.src(tsSourceCode, { base: "./" })
@@ -64,7 +57,7 @@ gulp.task('format', () => {
 });
 
 // TypeScript transpile
-gulp.task('build', ['clean', 'format', 'tsconfig:files'], () => {
+gulp.task('build', ['clean', 'format'], () => {
   const result = gulp.src(tsCompileContext)
     .pipe(sourcemaps.init())
     .pipe(typescript(tsconfig));
