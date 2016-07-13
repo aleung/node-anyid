@@ -17,11 +17,13 @@
     "node": "^5.0.0"
   },
   "dependencies": {
-    "@types/base-x": "^1.0.27-alpha",
-    "base-x": "^1.0.4"
+    "base-x": "^1.0.4",
+    "lodash": "^4.13.1"
   },
   "devDependencies": {
+    "@types/base-x": "^1.0.27-alpha",
     "@types/chai": "^3.4.27-alpha",
+    "@types/lodash": "0.0.26-alpha",
     "@types/mocha": "^2.2.26-alpha",
     "babel-preset-es2015-node5": "^1.1.1",
     "chai": "*",

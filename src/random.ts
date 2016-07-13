@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as crypto from 'crypto';
-import {AnyId, Value, EncodeBuffer} from './core';
+import { AnyId, Value } from './core';
 
 declare module './core' {
   interface AnyId {
@@ -9,7 +9,7 @@ declare module './core' {
 }
 
 class RandomValue extends Value {
-  value(): EncodeBuffer {
+  value(): Buffer {
     const bits = this.getBits();
     assert(bits, 'Length or bits must be set for random');
     return crypto.randomBytes(Math.ceil(bits / 8));

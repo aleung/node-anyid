@@ -1,13 +1,14 @@
 import * as assert from 'assert';
-import { EncodeBuffer, Codec, codec } from './encode';
+import * as _ from 'lodash';
+import { Codec, codec } from './encode';
+import { concatBits } from './utils';
 
-export { EncodeBuffer }
 
 export abstract class Value {
   bits: number;
   parent: AnyId;
 
-  abstract value(): EncodeBuffer;
+  abstract value(): Buffer;
 
   protected getBits(): number {
     if (this.bits) {
@@ -43,8 +44,12 @@ export class AnyId {
 
   id(args?: {}): string {
     if (this.hasValue()) {
-      // TODO: bit concatination
-      this._values.map((value) => value.value());
+      const {bits, buf} = _.reduceRight(this._values, (result: { bits: number, buf: Buffer }, value: Value) => {
+        return {
+          bits: value.bits + result.bits,
+          buf: concatBits(value.value(), value.bits, result.buf, result.bits)
+        }
+      });
       // TODO: trim/pad by length
       return this._codec.encode(buf);
     }

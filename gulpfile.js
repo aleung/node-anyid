@@ -49,6 +49,7 @@ gulp.task('clean', () => {
   return del(['lib', 'build', 'reports']);
 });
 
+// FIXME: format doesn't work with TypeScript 2.0
 // reformat TypeScript source code
 gulp.task('format', () => {
   return gulp.src(tsSourceCode, { base: "./" })
@@ -57,7 +58,7 @@ gulp.task('format', () => {
 });
 
 // TypeScript transpile
-gulp.task('build', ['clean', 'format'], () => {
+gulp.task('build', ['clean'], () => {
   const result = gulp.src(tsCompileContext)
     .pipe(sourcemaps.init())
     .pipe(typescript(tsconfig));

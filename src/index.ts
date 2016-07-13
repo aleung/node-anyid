@@ -1,7 +1,7 @@
 
-import {AnyId} from './core';
-import {Time} from './time';
-import {Random} from './random';
+import { AnyId } from './core';
+import { Time } from './time';
+import { Random } from './random';
 
 AnyId.use(Time);
 AnyId.use(Random);
