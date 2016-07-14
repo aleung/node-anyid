@@ -1,5 +1,5 @@
+import * as assert from 'assert';
 import { AnyId, Value } from './core';
-import { toBuffer } from './utils';
 
 
 export type TimeUnit = 'ms' | 's' | 'm' | 'h' | 'd';
@@ -7,21 +7,31 @@ export type TimeUnit = 'ms' | 's' | 'm' | 'h' | 'd';
 declare module './core' {
   interface AnyId {
     time(unit?: TimeUnit): AnyId;
+    since(t: Date): AnyId;
   }
 }
 
-class TimeValue extends Value {
+export class TimeValue extends Value {
+  private epoch = 0;
+
   constructor(private divisor: number) {
     super();
   }
 
   value(): Buffer {
-    const t = (this.divisor > 1) ? Math.floor(Date.now() / this.divisor) : Date.now();
-    return toBuffer(t);
+    const ms = Date.now() - this.epoch;
+    const t = (this.divisor > 1) ? Math.floor(ms / this.divisor) : ms;
+    const v = this.returnValue(t);
+    return v;
+  }
+
+  since(t: Date): void {
+    this.epoch = t.getTime();
   }
 }
 
 export class Time {
+
   time(this: AnyId, unit: TimeUnit = 'ms'): AnyId {
     let divisor: number = 1;
     switch (unit) {
@@ -33,4 +43,11 @@ export class Time {
     this.addValue(new TimeValue(divisor));
     return this;
   }
+
+  since(this: AnyId, t: Date): AnyId {
+    assert(this.lastValue() instanceof TimeValue, 'since() must follow time()');
+    (this.lastValue() as TimeValue).since(t);
+    return this;
+  }
+
 }

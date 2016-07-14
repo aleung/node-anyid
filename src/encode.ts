@@ -1,19 +1,12 @@
 import * as baseX from 'base-x';
 
-/**
- * Unsigned byte array
- */
-interface EncodeBuffer {
-  [index: number]: number;
-  length: number;
-}
-
 interface Codec {
-  encode(buffer: EncodeBuffer): string;
+  encode(buffer: Buffer): string;
   decode(s: string): number[];
   bytesForLength(n: number): number;
   padChar(): string;
 }
+
 
 function createCharset(s: string): string {
   let chars = '';
@@ -50,7 +43,7 @@ function codec(charset: string): Codec {
 }
 
 export {
-EncodeBuffer, Codec,
+Codec,
 createCharset, // for test only
 codec
 }

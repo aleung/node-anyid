@@ -86,19 +86,31 @@ export function concatBits(buf1: Buffer, bits1: number, buf2: Buffer, bits2: num
   return buf;
 }
 
-export function uintToBuffer(n: number): Buffer {
+function padBuffer(buf: Buffer, bytes: number): Buffer {
+  if (buf.length >= bytes) {
+    return buf;
+  }
+  const target = Buffer.alloc(bytes);
+  buf.copy(target, bytes - buf.length);
+  return target;
+}
+
+export function uintToBuffer(n: number, bytes?: number): Buffer {
   const byteArray: number[] = [];
   while (n >= 256) {
     byteArray.unshift(n % 256);
     n = Math.floor(n / 256);
   }
   byteArray.unshift(n);
+  if (bytes && byteArray.length < bytes) {
+    _.times(bytes - byteArray.length, () => byteArray.unshift(0));
+  }
   return Buffer.from(byteArray);
 }
 
-export function toBuffer(v: number | Buffer): Buffer {
+export function toBuffer(v: number | Buffer, bytes?: number): Buffer {
   if (typeof v === 'number') {
-    return uintToBuffer(v);
+    return uintToBuffer(v, bytes);
   }
-  return v;
+  return bytes ? padBuffer(v, bytes) : v;
 }

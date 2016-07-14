@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as _ from 'lodash';
 import { Codec, codec } from './encode';
-import { concatBits } from './utils';
+import { concatBits, toBuffer } from './utils';
 
 
 export abstract class Value {
@@ -19,6 +19,10 @@ export abstract class Value {
       this._bits = this.parent.sectionBitLength();
     }
     return this._bits;
+  }
+
+  protected returnValue(v: number | Buffer): Buffer {
+    return this.bits ? toBuffer(v, Math.ceil(this.bits / 8)) : toBuffer(v);
   }
 }
 
@@ -52,7 +56,7 @@ export class AnyId {
       const {bits, buf} = _.reduceRight(this._values,
         (result: { bits: number, buf: Buffer }, value: Value) => {
           const v = value.value();
-          const bits = value.bits | v.length * 8;
+          const bits = value.bits || v.length * 8;
           return {
             bits: bits + result.bits,
             buf: concatBits(v, bits, result.buf, result.bits)
@@ -121,7 +125,28 @@ export class AnyId {
     this._values.push(value);
   }
 
+  lastValue(): Value {
+    return _.last(this._values);
+  }
+
+  findValueByType(type: string): Value | undefined {
+    for (let v of this._values) {
+      if ( v.constructor.name === type ) {
+        return v;
+      }
+    }
+    for (let s of this._sections) {
+      if ( s instanceof AnyId) {
+        const v = s.findValueByType(type);
+        if (v) {
+          return v;
+        }
+      }
+    }
+    return undefined; // not found
+  }
+
   sectionBitLength(): number {
-    return this._length ? this._codec.bytesForLength(this._length) * 8 : undefined;
+    return this._length ? this.codec.bytesForLength(this._length) * 8 : undefined;
   }
 }

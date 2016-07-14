@@ -13,7 +13,7 @@ class FixValue extends Value {
   }
 
   value(): Buffer {
-    return this.v;
+    return this.returnValue(this.v);
   }
 }
 

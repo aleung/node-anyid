@@ -55,11 +55,6 @@ Example:
 * `Aa0` = A-Z a-z 0-9
 * `0A-IO` = 0-9 A-Z, excludes `I` and `O`
 
-There are special encoding:
-
-* `bin` - output the raw byte array
-* `hex` - hex representation
-
 ## Length
 
 Section can have fixed length or not. When length is specified, section will be trimmed or padded. For some kinds of value, e.g. random, length must be given.
@@ -89,11 +84,11 @@ Value can be:
 A section may have more than one values. Values will be concatenated as bit stream before encoded.
 You can use `bits(n: number)` to specify the bit width of a value.
 
-### Fix value: `fix(n: number | Buffer | string)`
+### Fix value: `fix(n: number | Buffer)`
 
 Value is either non-negative integer (UInt32), Buffer (byte array) or string.
 
-### Function result: `of( f: () => number | Buffer | string )`
+### Function result: `of( f: () => number | Buffer )`
 
 Similar to fix value, but the value is returned by a function every time.
 

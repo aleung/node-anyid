@@ -20,41 +20,55 @@ import {anyid} from '../src/index';
 }
 
 // Time and sequence (Twitter Snowflake style)
-/*
-const generator = anyid()
-  .encode('bin')
-  .bits(41).time('ms').since(new Date('2016-1-1'))
-  .bits(12).seq().resetByTime();
-  .bits(10).fix(generatorId);
+
+{
+  const generatorId = 1234;
+
+  const generator = anyid()
+    .encode('0')
+    .bits(41).time('ms').since(new Date('2016-1-1'))
+    .bits(12).seq().resetByTime()
+    .bits(10).fix(generatorId);
+
+  console.log('3. Time and sequence (Twitter Snowflake style). Bit stream merge');
+  console.log(generator.id());
+}
 
 // Function value
 
-const nanotime = () => {
-  return process.hrtime()[1];
-};
+{
+  const nanotime = () => {
+    return process.hrtime()[1];
+  };
 
-const generator = anyid()
-  .encode('Aa0')
-  .section(
-  anyid().time('s')
-  )
-  .section(
-  anyid().of(nanotime);
-  );
+  const generator = anyid()
+    .encode('Aa0')
+    .section(anyid().time('s'))
+    .delimiter('+')
+    .section(anyid().of(nanotime));
+
+  console.log('4. Function value');
+  console.log(generator.id());
+}
+
 
 // Different charset in section
 
-const generator = anyid()
-  .encode('A')
-  .section(
-  anyid().time('s');
-  )
-  .section(
-  anyid().encode('Aa0').length(5).random();
-  );
+{
+  const generator = anyid()
+    .encode('A-IO')
+    .section(anyid().length(3).random())
+    .delimiter(' ')
+    .section(anyid().encode('0').length(3).random())
+    .delimiter(' ')
+    .section(anyid().length(3).random());
+
+  console.log('5. Different charset in sections');
+  console.log(generator.id());
+}
 
 // Single variable
-
+/*
 const generator = anyid()
   .encode('Aa0')
   .section(
