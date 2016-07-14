@@ -5,17 +5,20 @@ import { concatBits } from './utils';
 
 
 export abstract class Value {
-  bits: number;
   parent: AnyId;
+  private _bits: number;
 
   abstract value(): Buffer;
 
-  protected getBits(): number {
-    if (this.bits) {
-      return this.bits;
-    } else {
-      return this.parent.sectionBitLength();
+  set bits(n: number) {
+    this._bits = n;
+  }
+
+  get bits(): number | undefined {
+    if (!this._bits) {
+      this._bits = this.parent.sectionBitLength();
     }
+    return this._bits;
   }
 }
 
@@ -29,29 +32,42 @@ export class AnyId {
   static use(mixin: any): void {
     let prototype: any = AnyId.prototype;
     Object.getOwnPropertyNames(mixin.prototype).forEach(name => {
-      console.log('Mixes property ', name);
       prototype[name] = mixin.prototype[name];
     });
   }
 
   private _parent: AnyId;
-  private _codec: Codec;
+  private _codec: Codec | undefined;
   private _length: number;
   private _sections: (AnyId | Delimiter)[] = [];
   private _values: Value[] = [];
   private _bits: number;
 
+  private get codec(): Codec {
+    return this._codec ? this._codec : this._parent.codec;
+  }
 
   id(args?: {}): string {
     if (this.hasValue()) {
-      const {bits, buf} = _.reduceRight(this._values, (result: { bits: number, buf: Buffer }, value: Value) => {
-        return {
-          bits: value.bits + result.bits,
-          buf: concatBits(value.value(), value.bits, result.buf, result.bits)
+      const {bits, buf} = _.reduceRight(this._values,
+        (result: { bits: number, buf: Buffer }, value: Value) => {
+          const v = value.value();
+          const bits = value.bits | v.length * 8;
+          return {
+            bits: bits + result.bits,
+            buf: concatBits(v, bits, result.buf, result.bits)
+          };
+        }, { bits: 0, buf: Buffer.alloc(0) });
+      const c = this.codec.encode(buf);
+      if (this._length) {
+        if (c.length > this._length) {
+          return c.substr(c.length - this._length);
         }
-      });
-      // TODO: trim/pad by length
-      return this._codec.encode(buf);
+        if (c.length < this._length) {
+          return _.padStart(c, this._length, this.codec.padChar());
+        }
+      }
+      return c;
     }
     return this._sections.map((section) => section.id(args)).join('');
   }
@@ -99,12 +115,13 @@ export class AnyId {
 
   addValue(value: Value): void {
     assert(!this.hasSection(), 'Section already exist. Value need to be put inside section');
+    value.parent = this;
     value.bits = this._bits;
     this._bits = undefined;
     this._values.push(value);
   }
 
   sectionBitLength(): number {
-    return this._length ? this._codec.bytesForLength(this._length) : undefined;
+    return this._length ? this._codec.bytesForLength(this._length) * 8 : undefined;
   }
 }

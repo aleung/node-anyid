@@ -4,17 +4,18 @@ import {anyid} from '../src/index';
 
 {
   const generator = anyid().encode('Aa0').length(21).random();
+  console.log('1. Single section, random');
   console.log(generator.id());
 }
 
 // Multiple sections, fix prefix
-
 {
   const generator = anyid()
     .encode('0A-IO')
     .section(anyid().fix(process.pid))
     .delimiter('-')
     .section(anyid().time('ms'));
+  console.log('2. Multiple sections, fix value and time');
   console.log(generator.id());
 }
 

@@ -12,6 +12,7 @@ interface Codec {
   encode(buffer: EncodeBuffer): string;
   decode(s: string): number[];
   bytesForLength(n: number): number;
+  padChar(): string;
 }
 
 function createCharset(s: string): string {
@@ -42,7 +43,10 @@ function createCharset(s: string): string {
 
 function codec(charset: string): Codec {
   const chars = createCharset(charset);
-  return baseX(chars);
+  const codec = <Codec>baseX(chars);
+  codec.bytesForLength = (n: number) => Math.ceil(Math.log2(chars.length) * n / 8);
+  codec.padChar = () => chars[0];
+  return codec;
 }
 
 export {

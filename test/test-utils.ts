@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import * as _ from 'lodash';
-import {normalize, concatBits} from '../src/utils';
+import {normalize, concatBits, uintToBuffer} from '../src/utils';
 
 describe('utils', () => {
 
@@ -45,6 +45,13 @@ describe('utils', () => {
       Buffer.from([0x34, 0x56, 0x78]), 24,
       Buffer.from([0x11, 0x11, 0x11, 0xEF, 0xAB, 0xCD, 0xEF, 0xAB]), 36)
     ).to.eql(Buffer.from([0x03, 0x45, 0x67, 0x8F, 0xAB, 0xCD, 0xEF, 0xAB]));
+  });
+
+  it('uint to buffer', () => {
+    expect(uintToBuffer(100)).to.eql(Buffer.from([100]));
+    expect(uintToBuffer(65536)).to.eql(Buffer.from([1, 0, 0]));
+    expect(uintToBuffer(737894430789))
+      .to.eql(Buffer.from([0xab, 0xcd, 0xef, 0x78, 0x45]));
   });
 
 });

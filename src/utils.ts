@@ -85,3 +85,20 @@ export function concatBits(buf1: Buffer, bits1: number, buf2: Buffer, bits2: num
 
   return buf;
 }
+
+export function uintToBuffer(n: number): Buffer {
+  const byteArray: number[] = [];
+  while (n >= 256) {
+    byteArray.unshift(n % 256);
+    n = Math.floor(n / 256);
+  }
+  byteArray.unshift(n);
+  return Buffer.from(byteArray);
+}
+
+export function toBuffer(v: number | Buffer): Buffer {
+  if (typeof v === 'number') {
+    return uintToBuffer(v);
+  }
+  return v;
+}

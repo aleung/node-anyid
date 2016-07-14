@@ -10,9 +10,8 @@ declare module './core' {
 
 class RandomValue extends Value {
   value(): Buffer {
-    const bits = this.getBits();
-    assert(bits, 'Length or bits must be set for random');
-    return crypto.randomBytes(Math.ceil(bits / 8));
+    assert(this.bits, 'Length or bits must be set for random');
+    return crypto.randomBytes(Math.ceil(this.bits / 8));
   }
 }
 
