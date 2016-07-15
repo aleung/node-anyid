@@ -5,28 +5,28 @@ _Under development_
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-- [AnyID - ID generator](#anyid---id-generator)
-
+- [Introduction](#introduction)
 - [Encode](#encode)
-- [Length](#length)
+- [Section and Delimiter](#section-and-delimiter)
 - [Value](#value)
-  - [Fix value: `fix(n: number | Buffer | string)`](#fix-value-fixn-number--buffer--string)
-  - [Function result: `of( f: () => number | Buffer | string )`](#function-result-of-f---number--buffer--string-)
-  - [Variable: `var( name?: string )`](#variable-var-name-string-)
-  - [Random: `random()`](#random-random)
-  - [Time: `time(unit: string = 'ms')`](#time-timeunit-string--ms)
-  - [Sequence: `seq()`](#sequence-seq)
-- [Validate by checksum](#validate-by-checksum)
-- [Examples:](#examples)
-  - [Single section, random](#single-section-random)
-  - [Multiple sections, fix prefix](#multiple-sections-fix-prefix)
-  - [Time and sequence (Twitter Snowflake style)](#time-and-sequence-twitter-snowflake-style)
+  - [Random](#random)
+  - [Timestamp](#timestamp)
+  - [Sequence](#sequence)
+  - [Fixed value](#fixed-value)
+  - [Function result](#function-result)
+  - [Variable](#variable)
+- [Checksum _(coming)_](#checksum-_coming_)
+- [Parse _(coming)_](#parse-_coming_)
+- [Examples](#examples)
+  - [Single section, random value](#single-section-random-value)
+  - [Multiple sections, fix prefix and timestamp](#multiple-sections-fix-prefix-and-timestamp)
+  - [Sequence and bit stream concatenation](#sequence-and-bit-stream-concatenation)
   - [Function value](#function-value)
-  - [Different charset in section](#different-charset-in-section)
-  - [Single variable](#single-variable)
-  - [Multiple variable](#multiple-variable)
-  - [Checksum](#checksum)
-  - [Parse](#parse)
+  - [Use different charset in sections](#use-different-charset-in-sections)
+  - [Single variable _(coming)_](#single-variable-_coming_)
+  - [Multiple variables _(coming)_](#multiple-variables-_coming_)
+  - [Checksum _(coming)_](#checksum-_coming_-1)
+  - [Parse  _(coming)_](#parse--_coming_)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -50,7 +50,7 @@ A section may contain one or more values. Multiple values are concatenated into 
 
 Use it in your code:
 
-``` ts
+``` js
 import {anyid} from 'anyid';
 const ids = anyid().encode('Aa0').length(21).random();
 console.log(ids.id());
@@ -85,7 +85,7 @@ A section accepts a `AnyId` object as parameter. For ID containing single sectio
 section( anyid: AnyId )
 ```
 
-Section length can be fixed or variant. When length is specified, section will be trimmed or padded at beginning side. 
+Section length can be fixed or variant. When length is specified, section will be trimmed or padded at beginning side.
 
 ``` ts
 length(n: number)
@@ -199,11 +199,13 @@ Similar to fix value, but the value is returned by a function which is called an
 of( f: () => number | Buffer )
 ```
 
-### Variable 
+### Variable
 
 Similar to fix value, but the value is given in `id` function call. Read example below to check how it's used.
 
-`var( name?: string )`
+``` ts
+var( name?: string )
+```
 
 When there is only one variable used in ID generator, the name can be omitted.
 
@@ -212,7 +214,7 @@ When there is only one variable used in ID generator, the name can be omitted.
 
 Append checksum at the end of generated ID:
 
-```
+``` ts
 checksum(algorithm: string, length?: number)
 ```
 
@@ -240,7 +242,7 @@ parse(id: string)
 
 It gives you an object containing values like:
 
-``` json
+``` js
 { sections: [
    { values: [123] },
    { values: [<Date>, <Buffer>]
@@ -251,9 +253,9 @@ It gives you an object containing values like:
 
 ### Single section, random value
 
-This id has essence the same low probability of a clash as type 4 (randome) UUID:
+This id has essence the same low probability of a clash as type 4 (random) UUID:
 
-``` ts
+``` js
 const ids = anyid().encode('Aa0').length(21).random()
 const id  = ids.id();
 ```
@@ -262,18 +264,18 @@ const id  = ids.id();
 
 ### Multiple sections, fix prefix and timestamp
 
-``` ts
+``` js
 const ids = anyid()
   .encode('0A-IO')
   .section( anyid().fixed(process.pid) )
   .delimiter('-')
-  .section( anyid().time('ms') );
+  .section( anyid().time() );
 ```
 
-It uses human friendly charset: `I` and `O` are excluded because of similarity to `1` and `0`. 
+It uses human friendly charset: `I` and `O` are excluded because of similarity to `1` and `0`.
 
     008CL-00TYMZS0P3
-    
+
 ### Sequence and bit stream concatenation
 
 It's Twitter Snowflake style ID with timestamp, sequence and worker.
@@ -281,15 +283,15 @@ It's Twitter Snowflake style ID with timestamp, sequence and worker.
 ``` js
 const ids = anyid()
   .encode('0')
-  .bit(41).time('ms').since(new Date('2016-7-1'))
+  .bit(41).time().since(new Date('2016-7-1'))
   .bit(12).seq().resetByTime();
   .bit(10).fix(workerId);
 ```
 
-Timestamp is since 2016-7-1. Sequence is reset every millisecond. 
+Timestamp is since 2016-7-1. Sequence is reset every millisecond.
 
     071243223959339218
-    
+
 ### Function value
 
 ID contains second and nanosecond. Nanosecond is retrieved by a function.
@@ -312,7 +314,7 @@ const ids = anyid()
 
 The ID has default charset `A-IO`. The second section uses charset `0`.
 
-``` ts
+``` js
 const ids = anyid()
   .encode('A-IO')
   .section( anyid().length(3).random() )
@@ -326,18 +328,18 @@ const ids = anyid()
 
 ### Single variable _(coming)_
 
-``` ts
+``` js
 const ids = anyid()
   .encode('Aa0')
   .section( anyid().var() )   // --> userId
   .section( anyid().time() );
-  
+
 const id = ids(userId);
 ```
 
 ### Multiple variables _(coming)_
 
-``` ts
+``` js
 const ids = anyid()
   .encode('Aa0')
   .section( anyid().var('countryId') )
@@ -351,7 +353,7 @@ const id = ids.id({countryId, userId});
 
 ### Checksum _(coming)_
 
-``` ts
+``` js
 const ids = anyid()
   .encode('Aa0')
   .section( anyid().time() )
@@ -365,12 +367,12 @@ ids.validate(id); // true
 
 ### Parse  _(coming)_
 
-``` ts
+``` js
 const ids = Id
   .encode('Aa0')
-  .section( 
+  .section(
     anyid().bits(4).fix(datacenterId)
-           .bits(12).fix(workerId) 
+           .bits(12).fix(workerId)
   )
   .delimiter('-')
   .section( anyid().time() )
