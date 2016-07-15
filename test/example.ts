@@ -12,7 +12,7 @@ import {anyid} from '../src/index';
 {
   const generator = anyid()
     .encode('0A-IO')
-    .section(anyid().fix(process.pid))
+    .section(anyid().fixed(process.pid))
     .delimiter('-')
     .section(anyid().time('ms'));
   console.log('2. Multiple sections, fix value and time');
@@ -28,7 +28,7 @@ import {anyid} from '../src/index';
     .encode('0')
     .bits(41).time('ms').since(new Date('2016-1-1'))
     .bits(12).seq().resetByTime()
-    .bits(10).fix(generatorId);
+    .bits(10).fixed(generatorId);
 
   console.log('3. Time and sequence (Twitter Snowflake style). Bit stream merge');
   console.log(generator.id());

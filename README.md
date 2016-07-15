@@ -1,5 +1,5 @@
 
-# AnyID - ID generator
+# AnyID - ID generator for node.js
 
 _Under development_
 
@@ -30,17 +30,39 @@ _Under development_
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-    sdk3ksxjcs-JEDke3x8F-sldle34CZs
-    ^         ^
-    |         |
-    + section + delimiter
+## Introduction
 
-ID is compounded by sections with optional delimiter.
-Each section has codec and length
+AnyID is a simple and flexible API to generate and parse various kinds of string ID / code.
+
+The generated ID is compounded by sections with optional delimiter.
+Each section is encoded into specificed chars and may have fix length.
+
+    sdk3ksxjcs-JEDke3x8F-sldle34CZs
+    ^^^^^^^^^^          ^
+    │                   │
+    └ section           └ delimiter
+
+A section may contain one or more values. Multiple values are concatenated into bit stream before encoded.
+
+    ┌───────────────────────┬───────────────┬──────────────────┐
+    │  timestamp (41 bits)  │ seq (12 bits) │ worker (10 bits) │
+    └───────────────────────┴───────────────┴──────────────────┘
+
+Use it in your code:
+
+``` ts
+import {anyid} from 'anyid';
+const ids = anyid().encode('Aa0').length(21).random();
+console.log(ids.id());
+```
 
 ## Encode
 
-Encode with given charset.
+Encode with given charset:
+
+``` ts
+encode(charset: string)
+```
 
 Charset is specified by simple letter:
 
@@ -55,11 +77,23 @@ Example:
 * `Aa0` = A-Z a-z 0-9
 * `0A-IO` = 0-9 A-Z, excludes `I` and `O`
 
-## Length
+## Section and Delimiter
 
-Section can have fixed length or not. When length is specified, section will be trimmed or padded. For some kinds of value, e.g. random, length must be given.
+A section accepts a `AnyId` object as parameter. For ID containing single section, `section` function is not used.
 
-> **Hint** What length will be?
+``` ts
+section( anyid: AnyId )
+```
+
+Section length can be fixed or variant. When length is specified, section will be trimmed or padded at beginning side. 
+
+``` ts
+length(n: number)
+```
+
+For some kinds of value, e.g. random, length must be given.
+
+> **Hint** What length will be if not specified?
 >
 >     b: value bytes
 >     a: Charset size
@@ -70,62 +104,117 @@ Section can have fixed length or not. When length is specified, section will be 
 > Value is 4 bytes UInt32, charset is A-Za-z0-9 which has 62 characters.
 > `8 * 4 / log₂ 62 = 5.37`. Maximum length will be 6.
 
+Delimiter can be put between sections. It's output as is and never be encoded.
+
+``` ts
+delimiter( s: string )
+```
+
 ## Value
 
-Value can be:
+AnyID supports several value types:
 
+- random
+- timestamp
+- sequence
 - fix value
 - function result
-- variable
-- random
-- time
-- sequence
+- variable _(coming)_
 
 A section may have more than one values. Values will be concatenated as bit stream before encoded.
-You can use `bits(n: number)` to specify the bit width of a value.
 
-### Fix value: `fix(n: number | Buffer)`
+You can use `bits` to specify the bit width of a value. Higher bits will be discard if value has more bits than desired.
 
-Value is either non-negative integer (UInt32), Buffer (byte array) or string.
+``` ts
+bits( n: number )
+```
 
-### Function result: `of( f: () => number | Buffer )`
+### Random
 
-Similar to fix value, but the value is returned by a function every time.
+Generate value by random. Length or bits must be specified.
 
-### Variable: `var( name?: string )`
+``` ts
+random()
+```
 
-Similar to fix value, but the value is specified in `id()` function call.
+### Timestamp
 
-When there is only one variable used in ID generator, the name can be omitted.
+Use current timestamp as value.
 
-### Random: `random()`
-
-Fills section with random value. Length must be specified.
-
-### Time: `time(unit: string = 'ms')`
+``` ts
+time( unit: string = 'ms' )
+```
 
 Unit can be `ms`, `s`, `m`, `h`, `d`.
 
-`since(t: Date)`
+By default, timestamp value is since UNIX epoch time. You can overwrite it to a recent date to save some bits.
 
-By default, time value is since UNIX epoch time.
+``` ts
+since( t: Date )
+```
 
-### Sequence: `seq()`
+### Sequence
 
-`startWith(n: number)`
+Sequence increases everytime an ID is generated.
 
-By default, sequence starts with 0.
+``` ts
+seq()
+```
 
-`resetByTime()`
+By default, sequence starts from 0. You can set it to any non-negative integer.
 
-There must be a time segment in the ID. Reset when the time value is changed.
+``` ts
+startWith( n: number )
+```
 
-`max(n: number)`
+Sequence will be reset after it reaches max value.
+It can not exceed `2^32` (max value represented by UInt32).
 
-Max value of the sequence. Sequence will be reset after it reaches max value.
-It can not exceed 2^32 (max value represented by UInt32).
+``` ts
+max( n: number )
+```
 
-## Validate by checksum
+Or, let it reset when timestamp changes:
+
+``` ts
+resetByTime()
+```
+
+To use `resetByTime`, there must be a timestamp value in the ID.
+
+
+### Fixed value
+
+``` ts
+fixed( n: number | Buffer )
+```
+
+Value is either non-negative integer (UInt32) or Buffer (byte array).
+
+### Function result
+
+Similar to fix value, but the value is returned by a function which is called an ID is to be generated.
+
+``` ts
+of( f: () => number | Buffer )
+```
+
+### Variable 
+
+Similar to fix value, but the value is given in `id` function call. Read example below to check how it's used.
+
+`var( name?: string )`
+
+When there is only one variable used in ID generator, the name can be omitted.
+
+
+## Checksum _(coming)_
+
+Append checksum at the end of generated ID:
+
+```
+checksum(algorithm: string, length?: number)
+```
 
 Supported checksum algorithms:
 
@@ -135,140 +224,162 @@ Supported checksum algorithms:
 - md5
 - sha-1
 
-`checksum(algorithm: string, length?: number)`
+To validate an ID which has checksum:
 
-## Examples:
-
-### Single section, random
-
-``` js
-const generator = Id.encode('Aa0').length(21).random();
-const id = generator.id();
+``` ts
+validate()
 ```
 
-### Multiple sections, fix prefix
+## Parse _(coming)_
 
-``` js
-const generator = Id
+Parse an ID to retrieve encoded values inside is possible when delimiter is used or length/bits is specified.
+
+``` ts
+parse(id: string)
+```
+
+It gives you an object containing values like:
+
+``` json
+{ sections: [
+   { values: [123] },
+   { values: [<Date>, <Buffer>]
+] }
+```
+
+## Examples
+
+### Single section, random value
+
+This id has essence the same low probability of a clash as type 4 (randome) UUID:
+
+``` ts
+const ids = anyid().encode('Aa0').length(21).random()
+const id  = ids.id();
+```
+
+    1LrKcmd0uk1Ma8szUxtda
+
+### Multiple sections, fix prefix and timestamp
+
+``` ts
+const ids = anyid()
   .encode('0A-IO')
-  .section(
-    Id.fix(process.pid);
-  )
+  .section( anyid().fixed(process.pid) )
   .delimiter('-')
-  .section(
-    Id.time('ms'));
-  );
+  .section( anyid().time('ms') );
 ```
 
-### Time and sequence (Twitter Snowflake style)
+It uses human friendly charset: `I` and `O` are excluded because of similarity to `1` and `0`. 
+
+    008CL-00TYMZS0P3
+    
+### Sequence and bit stream concatenation
+
+It's Twitter Snowflake style ID with timestamp, sequence and worker.
 
 ``` js
-const generator = Id
-  .encode('bin')
-  .bit(41).time('ms').since(new Date('2016-1-1'))
+const ids = anyid()
+  .encode('0')
+  .bit(41).time('ms').since(new Date('2016-7-1'))
   .bit(12).seq().resetByTime();
-  .bit(10).fix(generatorId);
+  .bit(10).fix(workerId);
 ```
 
+Timestamp is since 2016-7-1. Sequence is reset every millisecond. 
+
+    071243223959339218
+    
 ### Function value
+
+ID contains second and nanosecond. Nanosecond is retrieved by a function.
 
 ``` js
 const nanotime = () => {
   return process.hrtime()[1];
 };
 
-const generator = Id
+const ids = anyid()
   .encode('Aa0')
-  .section(
-    Id.time('s')
-  )
-  .section(
-    Id.of(nanotime);
-  );
+  .section( anyid().time('s') )
+  .delimiter('+')
+  .section( anyid().of(nanotime) );
 ```
 
-### Different charset in section
+    BlX6bX+j3Uz0
 
-``` js
-const generator = Id
-  .encode('A')
-  .section(
-    Id.time('s');
-  )
-  .section(
-    Id.encode('Aa0').length(5).random();
-  );
+### Use different charset in sections
+
+The ID has default charset `A-IO`. The second section uses charset `0`.
+
+``` ts
+const ids = anyid()
+  .encode('A-IO')
+  .section( anyid().length(3).random() )
+  .delimiter(' ')
+  .section( anyid().encode('0').length(3).random() )
+  .delimiter(' ')
+  .section( anyid().length(3).random() );
 ```
 
-### Single variable
+    HQX 552 ATC
 
-``` js
-const generator = Id
+### Single variable _(coming)_
+
+``` ts
+const ids = anyid()
   .encode('Aa0')
-  .section(
-    Id.var();
-  )
+  .section( anyid().var() )   // --> userId
+  .section( anyid().time() );
+  
+const id = ids(userId);
+```
+
+### Multiple variables _(coming)_
+
+``` ts
+const ids = anyid()
+  .encode('Aa0')
+  .section( anyid().var('countryId') )
   .delimiter('-')
-  .section(
-    Id.encode('Aa0').length(5).random();
-  );
-const id = generator.id(userId);
+  .section( anyid().var('userId') )
+  .delimiter('-')
+  .section( anyid().length(5).random() );
+
+const id = ids.id({countryId, userId});
 ```
 
-### Multiple variable
+### Checksum _(coming)_
 
-``` js
-const generator = Id
+``` ts
+const ids = anyid()
   .encode('Aa0')
-  .section(
-    Id.var('countryId');
-  )
-  .delimiter('-')
-  .section(
-    Id.var('userId');
-  )
-  .delimiter('-')
-  .section(
-    Id.encode('Aa0').length(5).random();
-  );
-const id = generator.id({countryId, userId});
-```
-
-### Checksum
-
-``` js
-const generator = Id
-  .encode('Aa0')
-  .section(
-    Id.time();
-  )
-  .section(
-    Id.length(5).random();
-  )
+  .section( anyid().time() )
+  .section( anyid().length(5).random() )
   .checksum('crc16');
-const id = generator.id();
-generator.validate(id); // true
+
+const id = ids();
+
+ids.validate(id); // true
 ```
 
-### Parse
+### Parse  _(coming)_
 
-``` js
-const generator = Id
+``` ts
+const ids = Id
   .encode('Aa0')
-  .section(
-    Id.fix(datacenterId);
+  .section( 
+    anyid().bits(4).fix(datacenterId)
+           .bits(12).fix(workerId) 
   )
   .delimiter('-')
-  .section(
-    Id.length(6).time()
-  )
-  .section(
-    Id.length(5).random();
-  );
-const id = generator.id(userId);
-generator.parse(id);
-// { section: [
-//   { value: [123] },
-//   { value: [<Date>, <Buffer>]
-//   ] }
+  .section( anyid().time() )
+
+const id = ids.id();
+
+ids.parse(id);
+// { sections: [
+//   { value: [2], [324] },
+//   { value: [<Date>] }
+// ] }
 ```

@@ -3,11 +3,11 @@ import { toBuffer } from './utils';
 
 declare module './core' {
   interface AnyId {
-    fix(n: number): AnyId;
+    fixed(n: number): AnyId;
   }
 }
 
-class FixValue extends Value {
+class FixedValue extends Value {
   constructor(private v: Buffer) {
     super();
   }
@@ -17,9 +17,9 @@ class FixValue extends Value {
   }
 }
 
-export class Fix {
-  fix(this: AnyId, v: number | Buffer): AnyId {
-    this.addValue(new FixValue(toBuffer(v)));
+export class Fixed {
+  fixed(this: AnyId, v: number | Buffer): AnyId {
+    this.addValue(new FixedValue(toBuffer(v)));
     return this;
   }
 }

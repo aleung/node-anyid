@@ -2,13 +2,13 @@
 import { AnyId } from './core';
 import { Time } from './time';
 import { Random } from './random';
-import { Fix } from './fix';
+import { Fixed } from './fixed';
 import { Sequence } from './seq';
 import { Func } from './function';
 
 AnyId.use(Time);
 AnyId.use(Random);
-AnyId.use(Fix);
+AnyId.use(Fixed);
 AnyId.use(Sequence);
 AnyId.use(Func);
 
