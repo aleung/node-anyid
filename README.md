@@ -19,8 +19,6 @@ _Under development, use at your own risk. Please wait for 1.0 release to use in 
   - [Fixed value](#fixed-value)
   - [Function result](#function-result)
   - [Variable _(coming)_](#variable-_coming_)
-- [Checksum _(coming)_](#checksum-_coming_)
-- [Parse _(coming)_](#parse-_coming_)
 - [Examples](#examples)
   - [Single section, random value](#single-section-random-value)
   - [Multiple sections, fix prefix and timestamp](#multiple-sections-fix-prefix-and-timestamp)
@@ -29,14 +27,12 @@ _Under development, use at your own risk. Please wait for 1.0 release to use in 
   - [Use different charset in sections](#use-different-charset-in-sections)
   - [Single variable _(coming)_](#single-variable-_coming_)
   - [Multiple variables _(coming)_](#multiple-variables-_coming_)
-  - [Checksum _(coming)_](#checksum-_coming_-1)
-  - [Parse  _(coming)_](#parse--_coming_)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Introduction
 
-AnyID is a simple and flexible API to generate and parse various kinds of string ID / code.
+AnyID is a simple and flexible API to generate <!-- and parse --> various kinds of string ID / code.
 
 The generated ID is compounded by sections with optional delimiter.
 Each section is encoded into specificed chars and may have fix length.
@@ -213,6 +209,7 @@ var( name?: string )
 
 When there is only one variable used in ID generator, the name can be omitted.
 
+<!--
 
 ## Checksum _(coming)_
 
@@ -252,6 +249,8 @@ It gives you an object containing values like:
    { values: [<Date>, <Buffer>]
 ] }
 ```
+
+-->
 
 ## Examples
 
@@ -355,6 +354,8 @@ const ids = anyid()
 const id = ids.id({countryId, userId});
 ```
 
+<!--
+
 ### Checksum _(coming)_
 
 ``` js
@@ -389,3 +390,5 @@ ids.parse(id);
 //   { value: [<Date>] }
 // ] }
 ```
+
+-->
