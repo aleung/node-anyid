@@ -1,10 +1,14 @@
 
 # AnyID - ID generator for node.js
 
-_Under development_
+[![npm version](https://img.shields.io/npm/v/anyid.svg?maxAge=2592000)](https://www.npmjs.com/package/anyid)
+
+_Under development, use at your own risk. Please wait for 1.0 release to use in production._
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
 - [Introduction](#introduction)
 - [Encode](#encode)
 - [Section and Delimiter](#section-and-delimiter)
@@ -14,7 +18,7 @@ _Under development_
   - [Sequence](#sequence)
   - [Fixed value](#fixed-value)
   - [Function result](#function-result)
-  - [Variable](#variable)
+  - [Variable _(coming)_](#variable-_coming_)
 - [Checksum _(coming)_](#checksum-_coming_)
 - [Parse _(coming)_](#parse-_coming_)
 - [Examples](#examples)
@@ -199,7 +203,7 @@ Similar to fix value, but the value is returned by a function which is called an
 of( f: () => number | Buffer )
 ```
 
-### Variable
+### Variable _(coming)_
 
 Similar to fix value, but the value is given in `id` function call. Read example below to check how it's used.
 
