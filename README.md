@@ -79,7 +79,7 @@ Example:
 
 ## Section and Delimiter
 
-A section accepts a `AnyId` object as parameter. For ID containing single section, `section` function is not used.
+A section accepts an `AnyId` object as parameter. For ID containing single section, `section` function is not used.
 
 ``` ts
 section( anyid: AnyId )
@@ -96,7 +96,7 @@ For some kinds of value, e.g. random, length must be given.
 > **Hint** What length will be if not specified?
 >
 >     b: value bytes
->     a: Charset size
+>     a: charset size
 >     length ≧ logₐ256ᵇ = log₂ 256ᵇ / log₂ a = 8b / log₂ a
 >
 > For example:
