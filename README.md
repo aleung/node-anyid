@@ -60,7 +60,7 @@ console.log(ids.id());
 
 Encode with given charset:
 
-``` ts
+``` typescript
 encode(charset: string)
 ```
 
@@ -81,13 +81,13 @@ Example:
 
 A section accepts an `AnyId` object as parameter. For ID containing single section, `section` function is not used.
 
-``` ts
+``` typescript
 section( anyid: AnyId )
 ```
 
 Section length can be fixed or variant. When length is specified, section will be trimmed or padded at beginning side.
 
-``` ts
+``` typescript
 length(n: number)
 ```
 
@@ -106,7 +106,7 @@ For some kinds of value, e.g. random, length must be given.
 
 Delimiter can be put between sections. It's output as is and never be encoded.
 
-``` ts
+``` typescript
 delimiter( s: string )
 ```
 
@@ -125,7 +125,7 @@ A section may have more than one values. Values will be concatenated as bit stre
 
 You can use `bits` to specify the bit width of a value. Higher bits will be discard if value has more bits than desired.
 
-``` ts
+``` typescript
 bits( n: number )
 ```
 
@@ -133,7 +133,7 @@ bits( n: number )
 
 Generate value by random. Length or bits must be specified.
 
-``` ts
+``` typescript
 random()
 ```
 
@@ -141,7 +141,7 @@ random()
 
 Use current timestamp as value.
 
-``` ts
+``` typescript
 time( unit: string = 'ms' )
 ```
 
@@ -149,7 +149,7 @@ Unit can be `ms`, `s`, `m`, `h`, `d`.
 
 By default, timestamp value is since UNIX epoch time. You can overwrite it to a recent date to save some bits.
 
-``` ts
+``` typescript
 since( t: Date )
 ```
 
@@ -157,26 +157,26 @@ since( t: Date )
 
 Sequence increases everytime an ID is generated.
 
-``` ts
+``` typescript
 seq()
 ```
 
 By default, sequence starts from 0. You can set it to any non-negative integer.
 
-``` ts
+``` typescript
 startWith( n: number )
 ```
 
 Sequence will be reset after it reaches max value.
 It can not exceed `2^32` (max value represented by UInt32).
 
-``` ts
+``` typescript
 max( n: number )
 ```
 
 Or, let it reset when timestamp changes:
 
-``` ts
+``` typescript
 resetByTime()
 ```
 
@@ -185,7 +185,7 @@ To use `resetByTime`, there must be a timestamp value in the ID.
 
 ### Fixed value
 
-``` ts
+``` typescript
 fixed( n: number | Buffer )
 ```
 
@@ -195,7 +195,7 @@ Value is either non-negative integer (UInt32) or Buffer (byte array).
 
 Similar to fix value, but the value is returned by a function which is called an ID is to be generated.
 
-``` ts
+``` typescript
 of( f: () => number | Buffer )
 ```
 
@@ -203,7 +203,7 @@ of( f: () => number | Buffer )
 
 Similar to fix value, but the value is given in `id` function call. Read example below to check how it's used.
 
-``` ts
+``` typescript
 var( name?: string )
 ```
 
@@ -215,7 +215,7 @@ When there is only one variable used in ID generator, the name can be omitted.
 
 Append checksum at the end of generated ID:
 
-``` ts
+``` typescript
 checksum(algorithm: string, length?: number)
 ```
 
@@ -229,7 +229,7 @@ Supported checksum algorithms:
 
 To validate an ID which has checksum:
 
-``` ts
+``` typescript
 validate()
 ```
 
@@ -237,7 +237,7 @@ validate()
 
 Parse an ID to retrieve encoded values inside is possible when delimiter is used or length/bits is specified.
 
-``` ts
+``` typescript
 parse(id: string)
 ```
 

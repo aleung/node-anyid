@@ -23,6 +23,14 @@ describe('encode', () => {
     expect(chars.indexOf('O')).to.equal(-1);
   });
 
+  it('exclude characters not in charset', () => {
+    const chars = encode.createCharset('0A-a');
+    expect(chars.length).to.equal(36);
+    expect(_.uniq(chars).length).to.equal(36);
+    expect(chars[0]).to.equal('0');
+    expect(chars[10]).to.equal('A');
+  });
+
   it('throw error on invalid charset parameter', () => {
     expect(() => encode.createCharset('x')).to.throw(Error);
   });
@@ -34,5 +42,12 @@ describe('encode', () => {
     const code = codec.encode(buf);
     expect(code).to.equal('04gfWJD');
     expect(codec.decode(code)).to.eql(bytes);
+  });
+
+  it('calculate bytes required', () => {
+    expect(encode.codec('0').bytesForLength(1)).to.equals(1);
+    expect(encode.codec('0').bytesForLength(5)).to.equals(3);
+    expect(encode.codec('Aa-ABCDEFGHIJKL').bytesForLength(3)).to.equals(2);
+    expect(encode.codec('Aa-ABCDEFGHIJK').bytesForLength(3)).to.equals(3);
   });
 });
