@@ -11,7 +11,6 @@ interface Codec {
 
 function createCharset(s: string): string {
   const groups = s.match(/^([Aa0]+)([\+-][^\+-]+)?([\+-][^\+-]+)?$/);
-  console.log(groups);
   if (!groups) {
     throw new Error(`Invalid encode parameter "${s}"`);
   }

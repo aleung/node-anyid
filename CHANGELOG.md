@@ -1,3 +1,6 @@
+## 0.0.2 (2016-7-30)
+
+- [ENHANCEMENT] Support appending extra characters into encode charset. 
 
 ## 0.0.1 (2016-7-16)
 
