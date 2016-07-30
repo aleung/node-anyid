@@ -70,12 +70,14 @@ Charset is specified by simple letter:
 * `a` - Alphabet in lower case
 * `0` - Numeric
 
-Individual letters can be exclude by followed after `-`
+Individual letters can be exclude by followed after `-`, be appended by followed after `+`.
 
 Example:
 
 * `Aa0` = A-Z a-z 0-9
 * `0A-IO` = 0-9 A-Z, excludes `I` and `O`
+* `0+ABCDEF` = 0-9 A-F
+* `A+01-IO` = A-Z 1 2, excludes `I` and `O`
 
 ## Section and Delimiter
 

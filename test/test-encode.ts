@@ -13,6 +13,16 @@ describe('encode', () => {
     expect(chars[52]).to.equal('0');
   });
 
+  it('remote duplicated characters', () => {
+    const chars = encode.createCharset('A0A+C');
+    expect(chars.length).to.equal(36);
+  });
+
+  it('add additional characters', () => {
+    const chars = encode.createCharset('0+ABCDEF');
+    expect(chars.length).to.equal(16);
+  });
+
   it('exclude characters from charset', () => {
     const chars = encode.createCharset('0A-IO');
     expect(chars.length).to.equal(34);
@@ -29,6 +39,15 @@ describe('encode', () => {
     expect(_.uniq(chars).length).to.equal(36);
     expect(chars[0]).to.equal('0');
     expect(chars[10]).to.equal('A');
+  });
+
+  it('mix use of add and exclude', () => {
+    const chars = encode.createCharset('0A-AB+abc');
+    expect(chars.length).to.equal(37);
+    expect(chars[10]).to.equal('C');
+    expect(chars[36]).to.equal('c');
+    const chars2 = encode.createCharset('0A+abc-AB');
+    expect(chars2.length).to.equal(37);
   });
 
   it('throw error on invalid charset parameter', () => {
