@@ -17,6 +17,6 @@ function anyidValue(f: (anyid: AnyId) => void): Value {
   return <Value>value;
 }
 
-const valueObj = anyidValue( (anyid) => anyid.random() );
+const valueObj = anyidValue( (anyid) => anyid.encode('A').length(1).random() );
 valueObj.value();
 // TODO
