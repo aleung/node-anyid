@@ -1,7 +1,9 @@
 import { expect } from 'chai';
-import { AnyId, Value } from '../src/core';
+import { AnyId } from '../src/core';
 import { FilledValue, FillBits } from './fill';
+import { Fixed } from '../src/fixed';
 
+AnyId.use(Fixed);
 AnyId.use(FillBits);
 
 describe('core', () => {
@@ -21,7 +23,7 @@ describe('core', () => {
 
   describe('AnyId', () => {
 
-    it('bits', () => {
+    it('length and bits', () => {
       expect(
         new AnyId().encode('0-23456789').length(8).bits(3).fill().id()
       ).to.equal('00000111');
@@ -31,6 +33,55 @@ describe('core', () => {
       expect(
         new AnyId().encode('0+ABCDEF').length(20).bits(4).fill(1).bits(36).fill(0).bits(36).fill(1).id()
       ).to.equal('0F000000000FFFFFFFFF');
+    });
+
+    it('trim to bits', () => {
+      expect(
+        new AnyId().encode('0-23456789').length(8).bits(3).fixed(0xff).id()
+      ).to.equal('00000111');
+    });
+
+    it('pad to length', () => {
+      expect(
+        new AnyId().encode('0+ABCDEF').length(16).fixed(0x0f).id()
+      ).to.equal('000000000000000F');
+    });
+
+    it('section and delimiter', () => {
+      expect(
+        new AnyId().encode('0-23456789')
+          .section(new AnyId().length(4).fill())
+          .delimiter('-')
+          .section(new AnyId().length(4).fill())
+          .id()
+      ).to.equal('1111-1111');
+    });
+
+    it('do not allow section mix with value', () => {
+      expect(() =>
+        new AnyId().encode('0-23456789')
+          .section(new AnyId().length(4).fill())
+          .fill()
+          .id()
+      ).to.throw(/section/);
+      expect(() =>
+        new AnyId().encode('0-23456789')
+          .fill()
+          .section(new AnyId().length(4).fill())
+          .id()
+      ).to.throw(/section/);
+      expect(() =>
+        new AnyId().encode('0-23456789')
+          .fill()
+          .delimiter('-')
+          .id()
+      ).to.throw(/delimiter/);
+      expect(() =>
+        new AnyId().encode('0-23456789')
+          .delimiter('-')
+          .fill()
+          .id()
+      ).to.throw(/delimiter/);
     });
 
   });

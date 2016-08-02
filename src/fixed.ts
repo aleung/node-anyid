@@ -3,7 +3,7 @@ import { toBuffer } from './utils';
 
 declare module './core' {
   interface AnyId {
-    fixed(n: number): AnyId;
+    fixed(n: number | Buffer): AnyId;
   }
 }
 

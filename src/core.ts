@@ -84,6 +84,7 @@ export class AnyId {
   }
 
   delimiter(d: string): AnyId {
+    assert(!this.hasValue(), 'Do not mix delimiter with value');
     this._sections.push(new Delimiter(d));
     return this;
   }
@@ -118,7 +119,7 @@ export class AnyId {
   }
 
   addValue(value: Value): void {
-    assert(!this.hasSection(), 'Section already exist. Value need to be put inside section');
+    assert(!this.hasSection(), 'Section/delimiter already exist. Value need to be put inside section');
     value.parent = this;
     value.bits = this._bits;
     this._bits = undefined;
@@ -143,7 +144,7 @@ export class AnyId {
         }
       }
     }
-    return undefined; // not found
+    return this._parent ? this._parent.findValueByType(type) : undefined;
   }
 
   sectionBitLength(): number {

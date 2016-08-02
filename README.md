@@ -3,7 +3,7 @@
 
 [![npm version](https://img.shields.io/npm/v/anyid.svg?maxAge=2592000)](https://www.npmjs.com/package/anyid)
 
-_Under development, use at your own risk. Please wait for 1.0 release to use in production._
+_Please wait for 1.0 release to use in production._
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
