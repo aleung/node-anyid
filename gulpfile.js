@@ -42,7 +42,7 @@ const argv = yargs
 // - test
 // - prepublish
 
-gulp.task('default', ['test', 'lint']);
+gulp.task('default', ['test']); // ['test', 'lint']
 
 // clean generated files
 gulp.task('clean', () => {

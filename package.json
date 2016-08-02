@@ -8,7 +8,7 @@
     "url": "https://github.com/aleung/node-anyid.git"
   },
   "scripts": {
-    "prepublish": "./node_modules/.bin/doctoc README.md --maxlevel 3 && gulp prepublish",
+    "prepublish": "./node_modules/.bin/doctoc README.md --maxlevel 3",
     "test": "gulp"
   },
   "main": "lib/index.js",
