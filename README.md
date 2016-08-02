@@ -2,6 +2,7 @@
 # AnyID - ID generator for node.js
 
 [![npm version](https://img.shields.io/npm/v/anyid.svg?maxAge=2592000)](https://www.npmjs.com/package/anyid)
+[![travis ci](https://travis-ci.org/aleung/node-anyid.svg)](https://travis-ci.org/aleung/node-anyid)
 
 _Please wait for 1.0 release to use in production._
 
