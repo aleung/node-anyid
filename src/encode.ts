@@ -33,12 +33,12 @@ function createCharset(s: string): string {
   }
   for (let i = 2; i < groups.length; i++) {
     const g = groups[i];
-    if ( g && g[0] === '-' ) {
+    if (g && g[0] === '-') {
       for (let c of _.tail(g)) {
         chars = chars.split(c).join('');
       }
     }
-    if ( g && g[0] === '+' ) {
+    if (g && g[0] === '+') {
       for (let c of _.tail(g)) {
         chars += c;
       }
@@ -57,7 +57,7 @@ function codec(charset: string): Codec {
 }
 
 export {
-Codec,
-createCharset, // for test only
-codec
+  Codec,
+  createCharset, // for test only
+  codec
 }

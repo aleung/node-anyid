@@ -25,7 +25,6 @@ const argv = yargs
   .command('build')
   .command('lint')
   .command('test')
-  // .command('doc', 'Generate document')
   .command('prepublish', 'Prepare for a release')
   .option('m', {
     alias: 'match',
@@ -42,6 +41,7 @@ const argv = yargs
 // - build
 // - test
 // - prepublish
+// - ci
 
 gulp.task('default', ['test']); // ['test', 'lint']
 
@@ -109,7 +109,10 @@ gulp.task('codecov', ['remap-istanbul'], () => {
 });
 
 // unit test
-gulp.task('test', ['codecov']);
+gulp.task('test', ['remap-istanbul']);
+
+// run on travis-ci
+gulp.task('ci', ['codecov']);
 
 // lint (code checking)
 gulp.task('lint', ['format'], () => {

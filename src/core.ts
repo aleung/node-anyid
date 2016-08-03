@@ -132,12 +132,12 @@ export class AnyId {
 
   findValueByType(type: string): Value | undefined {
     for (let v of this._values) {
-      if ( v.constructor.name === type ) {
+      if (v.constructor.name === type) {
         return v;
       }
     }
     for (let s of this._sections) {
-      if ( s instanceof AnyId) {
+      if (s instanceof AnyId) {
         const v = s.findValueByType(type);
         if (v) {
           return v;

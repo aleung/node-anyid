@@ -5,3 +5,5 @@ node_js:
 before_script:
   - npm i -g typings
   - typings install
+script:
+  - npm run ci
