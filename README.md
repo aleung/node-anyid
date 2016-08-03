@@ -5,6 +5,7 @@
 [![travis ci](https://travis-ci.org/aleung/node-anyid.svg)](https://travis-ci.org/aleung/node-anyid)
 [![codecov](https://codecov.io/gh/aleung/node-anyid/branch/master/graph/badge.svg)](https://codecov.io/gh/aleung/node-anyid)
 [![Dependency Status](https://dependencyci.com/github/aleung/node-anyid/badge)](https://dependencyci.com/github/aleung/node-anyid)
+[![David](https://david-dm.org/aleung/node-anyid.svg)](https://david-dm.org/aleung/node-anyid)
 
 _Please wait for 1.0 release to use in production._
 
