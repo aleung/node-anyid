@@ -11,6 +11,7 @@ const tsfmt = require('gulp-tsfmt');
 const tslint = require("gulp-tslint");
 const istanbul = require('gulp-istanbul');
 const remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+const codecov = require('gulp-codecov');
 const yargs = require('yargs');
 
 const tsconfig = typescript.createProject('tsconfig.json', { typescript: require('typescript') });
@@ -95,13 +96,20 @@ gulp.task('remap-istanbul', ['run-test'], () => {
       basePath: './',
       reports: {
         'text': null,
+        'lcovonly': 'reports/coverage/lcov.info',
         'html': 'reports/coverage/html'
       }
     }))
 });
 
+// Upload coverage report to https://codecov.io/gh/aleung/node-anyid
+gulp.task('codecov', ['remap-istanbul'], () => {
+  gulp.src('reports/coverage/lcov.info')
+    .pipe(codecov());
+});
+
 // unit test
-gulp.task('test', ['remap-istanbul']);
+gulp.task('test', ['codecov']);
 
 // lint (code checking)
 gulp.task('lint', ['format'], () => {
