@@ -20,9 +20,11 @@ class VariableValue extends Value {
       assert(!this.name, 'Expect an object passed into id()');
       return this.returnValue(arg);
     } else {
-      assert(this.name, 'Expect a number or Buffer passed into id() instead of object');
-      assert(_.has(arg, this.name), `Missing property ${this.name} in object passed into id()`);
-      return this.returnValue(arg[this.name]);
+      if (this.name) {
+        assert(_.has(arg, this.name), `Missing property ${this.name} in object passed into id()`);
+        return this.returnValue(arg[this.name]);
+      }
+      throw new Error('Expect a number or Buffer passed into id() instead of object');
     }
   }
 }

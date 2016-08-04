@@ -8,11 +8,11 @@ export type IdArg = number | Buffer | {[name: string]: number | Buffer};
 
 export abstract class Value {
   parent: AnyId;
-  private _bits: number;
+  private _bits: number | undefined;
 
   abstract value(arg?: IdArg): Buffer;
 
-  set bits(n: number) {
+  set bits(n: number | undefined) {
     this._bits = n;
   }
 
@@ -47,7 +47,7 @@ export class AnyId {
   private _length: number;
   private _sections: (AnyId | Delimiter)[] = [];
   private _values: Value[] = [];
-  private _bits: number;
+  private _bits: number | undefined;
 
   private get codec(): Codec {
     return this._codec ? this._codec : this._parent.codec;
@@ -149,7 +149,7 @@ export class AnyId {
     return this._parent ? this._parent.findValueByType(type) : undefined;
   }
 
-  sectionBitLength(): number {
+  sectionBitLength(): number | undefined {
     return this._length ? this.codec.bytesForLength(this._length) * 8 : undefined;
   }
 }
