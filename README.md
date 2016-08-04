@@ -22,15 +22,15 @@ _Please wait for 1.0 release to use in production._
   - [Sequence](#sequence)
   - [Fixed value](#fixed-value)
   - [Function result](#function-result)
-  - [Variable _(coming)_](#variable-_coming_)
+  - [Variable](#variable)
 - [Examples](#examples)
   - [Single section, random value](#single-section-random-value)
   - [Multiple sections, fix prefix and timestamp](#multiple-sections-fix-prefix-and-timestamp)
   - [Sequence and bit stream concatenation](#sequence-and-bit-stream-concatenation)
   - [Function value](#function-value)
   - [Use different charset in sections](#use-different-charset-in-sections)
-  - [Single variable _(coming)_](#single-variable-_coming_)
-  - [Multiple variables _(coming)_](#multiple-variables-_coming_)
+  - [Single variable](#single-variable)
+  - [Multiple variables](#multiple-variables)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -118,7 +118,7 @@ delimiter( s: string )
 
 ## Value
 
-AnyID supports several value types:
+AnyID supports several kinds of value:
 
 - random
 - timestamp
@@ -126,6 +126,8 @@ AnyID supports several value types:
 - fix value
 - function result
 - variable _(coming)_
+
+Value is either non-negative integer (UInt32) or `Buffer` (byte array).
 
 A section may have more than one values. Values will be concatenated as bit stream before encoded.
 
@@ -195,7 +197,7 @@ To use `resetByTime`, there must be a timestamp value in the ID.
 fixed( n: number | Buffer )
 ```
 
-Value is either non-negative integer (UInt32) or Buffer (byte array).
+Value is either non-negative integer (UInt32) or `Buffer` (byte array).
 
 ### Function result
 
@@ -205,15 +207,27 @@ Similar to fix value, but the value is returned by a function which is called an
 of( f: () => number | Buffer )
 ```
 
-### Variable _(coming)_
+### Variable
 
-Similar to fix value, but the value is given in `id` function call. Read example below to check how it's used.
+Similar to fix value, but the value is given in `id` function call.
 
 ``` typescript
-var( name?: string )
+variable( name?: string )
 ```
 
-When there is only one variable used in ID generator, the name can be omitted.
+When there is only one variable used in ID generator, the name can be omitted in `variable()` and the value is directly passing in `id` function call:
+
+``` typ
+id( v: number | Buffer )
+```
+
+When there are multiple variables used in ID generator, the values need to be passing in `id` in an object:
+
+``` typ
+id( v: {[name: string]: number | Buffer} )
+```
+
+Read example below to check how it's used.
 
 <!--
 
@@ -335,25 +349,25 @@ const ids = anyid()
 
     HQX 552 ATC
 
-### Single variable _(coming)_
+### Single variable
 
 ``` js
 const ids = anyid()
   .encode('Aa0')
-  .section( anyid().var() )   // --> userId
+  .section( anyid().variable() )   // --> userId
   .section( anyid().time() );
 
 const id = ids(userId);
 ```
 
-### Multiple variables _(coming)_
+### Multiple variables
 
 ``` js
 const ids = anyid()
   .encode('Aa0')
-  .section( anyid().var('countryId') )
+  .section( anyid().variable('countryId') )
   .delimiter('-')
-  .section( anyid().var('userId') )
+  .section( anyid().variable('userId') )
   .delimiter('-')
   .section( anyid().length(5).random() );
 

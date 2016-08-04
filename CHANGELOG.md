@@ -1,3 +1,7 @@
+## next
+
+- [FEATURE] Support variable.
+
 ## 0.0.4 (2016-8-2)
 
 - [ENHANCEMENT] Full test coverage. Fix bugs found by unit test.

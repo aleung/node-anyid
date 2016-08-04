@@ -1,135 +1,77 @@
-import {anyid} from '../src/index';
+import { anyid } from '../src/index';
 
-// Single section, random
+// There are examples, not test cases. They don't assert the result.
+// To run:
+//     gulp test -m example
 
-{
-  const generator = anyid().encode('Aa0').length(21).random();
-  console.log('1. Single section, random');
-  console.log(generator.id());
-}
+describe('[anyid examples]', () => {
 
-// Multiple sections, fix prefix
-{
-  const generator = anyid()
-    .encode('0A-IO')
-    .section(anyid().fixed(process.pid))
-    .delimiter('-')
-    .section(anyid().time('ms'));
-  console.log('2. Multiple sections, fix value and time');
-  console.log(generator.id());
-}
+  it('Single section, random value', () => {
+    console.log(
+      anyid().encode('Aa0').length(21).random().id()
+    );
+  });
 
-// Time and sequence (Twitter Snowflake style)
+  it('Multiple sections, fix prefix and timestamp', () => {
+    console.log(
+      anyid()
+        .encode('0A-IO')
+        .section(anyid().fixed(process.pid))
+        .delimiter('-')
+        .section(anyid().time())
+        .id()
+    );
+  });
 
-{
-  const generatorId = 1234;
+  it('Function value', () => {
+    const nanotime = () => {
+      return process.hrtime()[1];
+    };
+    console.log(
+      anyid()
+        .encode('Aa0')
+        .section(anyid().time('s'))
+        .delimiter('+')
+        .section(anyid().of(nanotime))
+        .id()
+    );
+  });
 
-  const generator = anyid()
-    .encode('0')
-    .bits(41).time('ms').since(new Date('2016-1-1'))
-    .bits(12).seq().resetByTime()
-    .bits(10).fixed(generatorId);
+  it('Use different charset in sections', () => {
+    console.log(
+      anyid()
+        .encode('A-IO')
+        .section(anyid().length(3).random())
+        .delimiter(' ')
+        .section(anyid().encode('0').length(3).random())
+        .delimiter(' ')
+        .section(anyid().length(3).random())
+        .id()
+    );
+  });
 
-  console.log('3. Time and sequence (Twitter Snowflake style). Bit stream merge');
-  console.log(generator.id());
-}
+  it('Single variable', () => {
+    console.log(
+      anyid()
+        .encode('Aa0')
+        .section(anyid().variable())
+        .delimiter('-')
+        .section(anyid().time())
+        .id(Buffer.from('user-xxx'))
+    );
+  });
 
-// Function value
+  it('Multiple variables', () => {
+    console.log(
+      anyid()
+        .encode('Aa0')
+        .section(anyid().variable('countryId'))
+        .delimiter('-')
+        .section(anyid().variable('userId'))
+        .delimiter('-')
+        .section(anyid().length(5).random())
+        .id({ countryId: 86, userId: 635023 })
+    );
+  });
 
-{
-  const nanotime = () => {
-    return process.hrtime()[1];
-  };
-
-  const generator = anyid()
-    .encode('Aa0')
-    .section(anyid().time('s'))
-    .delimiter('+')
-    .section(anyid().of(nanotime));
-
-  console.log('4. Function value');
-  console.log(generator.id());
-}
-
-
-// Different charset in section
-
-{
-  const generator = anyid()
-    .encode('A-IO')
-    .section(anyid().length(3).random())
-    .delimiter(' ')
-    .section(anyid().encode('0').length(3).random())
-    .delimiter(' ')
-    .section(anyid().length(3).random());
-
-  console.log('5. Different charset in sections');
-  console.log(generator.id());
-}
-
-// Single variable
-/*
-const generator = anyid()
-  .encode('Aa0')
-  .section(
-  anyid().var();
-  )
-  .delimiter('-')
-  .section(
-  anyid().encode('Aa0').length(5).random();
-  );
-const id = generator.id(userId);
-
-// Multiple variable
-
-const generator = anyid()
-  .encode('Aa0')
-  .section(
-  anyid().var('countryId');
-  )
-  .delimiter('-')
-  .section(
-  anyid().var('userId');
-  )
-  .delimiter('-')
-  .section(
-  anyid().encode('Aa0').length(5).random();
-  );
-const id = generator.id({ countryId, userId });
-
-// Checksum
-
-const generator = anyid()
-  .encode('Aa0')
-  .section(
-  anyid().time();
-  )
-  .section(
-  anyid().length(5).random();
-  )
-  .checksum('crc16');
-const id = generator.id();
-generator.validate(id); // true
-
-// Parse
-
-const generator = anyid()
-  .encode('Aa0')
-  .section(
-  anyid().fix(datacenterId);
-  )
-  .delimiter('-')
-  .section(
-  anyid().length(6).time()
-  )
-  .section(
-  anyid().length(5).random();
-  );
-const id = generator.id(userId);
-generator.parse(id);
-// { section: [
-//   { value: [123] },
-//   { value: [<Date>, <Buffer>]
-//   ] }
-
-*/
+});

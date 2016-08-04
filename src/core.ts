@@ -4,11 +4,13 @@ import { Codec, codec } from './encode';
 import { concatBits, toBuffer } from './utils';
 
 
+export type IdArg = number | Buffer | {[name: string]: number | Buffer};
+
 export abstract class Value {
   parent: AnyId;
   private _bits: number;
 
-  abstract value(): Buffer;
+  abstract value(arg?: IdArg): Buffer;
 
   set bits(n: number) {
     this._bits = n;
@@ -51,11 +53,11 @@ export class AnyId {
     return this._codec ? this._codec : this._parent.codec;
   }
 
-  id(args?: {}): string {
+  id(arg?: IdArg): string {
     if (this.hasValue()) {
       const {bits, buf} = _.reduceRight(this._values,
         (result: { bits: number, buf: Buffer }, value: Value) => {
-          const v = value.value();
+          const v = value.value(arg);
           const bits = value.bits || v.length * 8;
           return {
             bits: bits + result.bits,
@@ -73,7 +75,7 @@ export class AnyId {
       }
       return c;
     }
-    return this._sections.map((section) => section.id(args)).join('');
+    return this._sections.map((section) => section.id(arg)).join('');
   }
 
   section(anyid: AnyId): AnyId {
