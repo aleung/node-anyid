@@ -21,7 +21,7 @@ const tsSourceCode = ['src/**/*.ts', 'test/**/*.ts'];
 const argv = yargs
   .usage(`Usage:
     gulp <task> [options]
-    gulp test [-m <case>] | bunyan -l <level>`)
+    gulp test [-m <case>]`)
   .command('build')
   .command('lint')
   .command('test')
@@ -29,6 +29,7 @@ const argv = yargs
   .option('m', {
     alias: 'match',
     describe: 'Run test cases with matched name. (cmd: test)',
+    default: 'test-',
     type: 'string'
   })
   .help('help')
@@ -80,8 +81,7 @@ gulp.task('pre-test', ['build'], () => {
 });
 
 gulp.task('run-test', ['pre-test'], () => {
-  const pattern = argv.m ? argv.m : '';
-  return gulp.src([`build/test/**/test-*${pattern}*.js`])
+  return gulp.src([`build/test/**/*${argv.m}*.js`])
     .pipe(mocha({ require: ['source-map-support/register']}))
     .pipe(istanbul.writeReports({
       reporters: ['json'],
