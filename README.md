@@ -145,6 +145,18 @@ Generate value by random. Length or bits must be specified.
 random()
 ```
 
+Internally it uses `crypto.randomBytes()` to generate random.
+
+> **Hint** The probability of duplicates in `n` random IDs is:
+>
+> ```
+> p(n) ≈ n²/(2*C^L)
+> ```
+>
+> Where `L` is the length of random id, `C` is the size of encode charset.
+>
+> For example: using `anyid().encode('Aa0').length(21).random()`  to generate randome ID, `L` is 21 and `C` is 62. Then `p(n) ≈ n²/(2*62^21)`. It has lower probability of duplicates then type 4 (random) UUID.
+
 ### Timestamp
 
 Use current timestamp as value.

@@ -27,7 +27,7 @@ function createCharset(s: string): string {
         chars += 'abcdefghijklmnopqrstuvwxyz';
         break;
       default:
-        // should never run to here: regex already block unmatched
+        // For safty. Should never run to here: regex already block unmatched
         throw new Error(`Invalid encoding type "${t}" in "${s}"`);
     }
   }

@@ -2,11 +2,13 @@ import * as assert from 'assert';
 import * as _ from 'lodash';
 
 // for debug
+/*
 function logBin(n: number) {
   const bin = _.padStart((n >>> 0).toString(2), 32, '0');
   const hex = _.padStart((n >>> 0).toString(16), 8, '0');
   console.log(bin, hex);
 }
+*/
 
 /*
  * 0B0000
