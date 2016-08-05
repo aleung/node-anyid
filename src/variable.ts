@@ -17,14 +17,18 @@ class VariableValue extends Value {
   value(arg: IdArg): Buffer {
     assert(arg, 'Variable requires to be given in id()');
     if (typeof arg === 'number' || arg instanceof Buffer) {
-      assert(!this.name, 'Expect an object passed into id()');
+      assert(!this.name, 'Expect an object to be passed into id()');
       return this.returnValue(arg);
     } else {
       if (this.name) {
         assert(_.has(arg, this.name), `Missing property ${this.name} in object passed into id()`);
-        return this.returnValue(arg[this.name]);
+        const property = arg[this.name];
+        if (typeof property === 'number' || property instanceof Buffer) {
+          return this.returnValue(property);
+        }
+        throw new Error(`Expect variable ${this.name} to be a number or a Buffer`);
       }
-      throw new Error('Expect a number or Buffer passed into id() instead of object');
+      throw new Error('Expect a number or a Buffer to be passed into id() instead of object');
     }
   }
 }

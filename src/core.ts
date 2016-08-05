@@ -4,7 +4,7 @@ import { Codec, codec } from './encode';
 import { concatBits, toBuffer } from './utils';
 
 
-export type IdArg = number | Buffer | {[name: string]: number | Buffer};
+export type IdArg = number | Buffer | {[name: string]: any};
 
 export abstract class Value {
   parent: AnyId;

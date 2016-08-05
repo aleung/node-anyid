@@ -125,7 +125,7 @@ AnyID supports several kinds of value:
 - sequence
 - fix value
 - function result
-- variable _(coming)_
+- variable
 
 Value is either non-negative integer (UInt32) or `Buffer` (byte array).
 
@@ -354,11 +354,14 @@ const ids = anyid()
 ``` js
 const ids = anyid()
   .encode('Aa0')
-  .section( anyid().variable() )   // --> userId
+  .section( anyid().variable() )
+  .delimiter('-')
   .section( anyid().time() );
 
-const id = ids(userId);
+const id = ids(Buffer.from('user-xxx'));
 ```
+
+    KFLnaOrolmA-AAZ28TmMo
 
 ### Multiple variables
 
@@ -371,8 +374,10 @@ const ids = anyid()
   .delimiter('-')
   .section( anyid().length(5).random() );
 
-const id = ids.id({countryId, userId});
+const id = ids.id({ countryId: 86, userId: 635023 });
 ```
+
+    AAABY-ACpMT-EBwQJ
 
 <!--
 
