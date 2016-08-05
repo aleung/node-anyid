@@ -1,6 +1,6 @@
 {
   "name": "anyid",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "ID generator for node.js",
   "license": "MIT",
   "repository": {

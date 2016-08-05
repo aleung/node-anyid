@@ -7,7 +7,7 @@
 [![Dependency Status](https://dependencyci.com/github/aleung/node-anyid/badge)](https://dependencyci.com/github/aleung/node-anyid)
 [![David](https://david-dm.org/aleung/node-anyid.svg)](https://david-dm.org/aleung/node-anyid)
 
-_Please wait for 1.0 release to use in production._
+_Requires node.js v5 or newer_
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -58,6 +58,12 @@ Use it in your code:
 import {anyid} from 'anyid';
 const ids = anyid().encode('Aa0').length(21).random();
 console.log(ids.id());
+```
+
+If you aren't using ES6, this is the way to require it:
+
+``` js
+var anyid = require('anyid').anyid;
 ```
 
 ## Encode
