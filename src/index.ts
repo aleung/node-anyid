@@ -16,3 +16,5 @@ AnyId.use(Variable);
 export function anyid(): AnyId {
   return new AnyId();
 }
+
+export {AnyId}
