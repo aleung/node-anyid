@@ -2,6 +2,11 @@
   "name": "anyid",
   "version": "1.0.0",
   "description": "ID generator for node.js",
+  "keywords": [
+    "id",
+    "generator",
+    "random"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
