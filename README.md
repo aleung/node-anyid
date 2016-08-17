@@ -6,6 +6,7 @@
 [![codecov](https://codecov.io/gh/aleung/node-anyid/branch/master/graph/badge.svg)](https://codecov.io/gh/aleung/node-anyid)
 [![Dependency Status](https://dependencyci.com/github/aleung/node-anyid/badge)](https://dependencyci.com/github/aleung/node-anyid)
 [![David](https://david-dm.org/aleung/node-anyid.svg)](https://david-dm.org/aleung/node-anyid)
+![ES6](https://img.shields.io/badge/ES-6-yellow.svg)
 
 _Requires node.js v5 or newer_
 
