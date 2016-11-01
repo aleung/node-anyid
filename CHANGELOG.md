@@ -1,4 +1,8 @@
-## next
+## 1.0.1 (2016-11-1)
+
+- [ISSUE] Fixed an issue which prevents this package from being installed with yarn (#4)
+
+## 1.0.0
 
 - [FEATURE] Support variable.
 
