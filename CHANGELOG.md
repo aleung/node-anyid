@@ -1,3 +1,7 @@
+## 1.0.2 (2018-3-5)
+
+- [ISSUE] Fixed AssertionError on variable value being zero.
+
 ## 1.0.1 (2016-11-1)
 
 - [ISSUE] Fixed an issue which prevents this package from being installed with yarn (#4)

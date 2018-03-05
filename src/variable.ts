@@ -15,7 +15,7 @@ class VariableValue extends Value {
   }
 
   value(arg: IdArg): Buffer {
-    assert(arg, 'Variable requires to be given in id()');
+    assert(!_.isUndefined(arg), 'Variable requires to be given in id()');
     if (typeof arg === 'number' || arg instanceof Buffer) {
       assert(!this.name, 'Expect an object to be passed into id()');
       return this.returnValue(arg);

@@ -12,6 +12,12 @@ describe('variable', () => {
     ).to.equal('0FFAA');
   });
 
+  it('variable value is zero', () => {
+    expect(
+      anyid().encode('0+ABCDEF').length(2).variable().id(0)
+    ).to.equal('00');
+  });
+
   it('multiple variables', () => {
     expect(
       anyid().encode('0')
