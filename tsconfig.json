@@ -2,16 +2,19 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "./build",
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "removeComments": false,
+    "newLine": "LF",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": false,
+    "removeComments": true,
+    "skipLibCheck": true,
     "declaration": true,
     "sourceMap": true
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts",
-    "typings/index.d.ts"
+    "test/**/*.ts"
   ]
 }

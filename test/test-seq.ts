@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { anyid } from '../src/index';
 
 function sleep(millisec: number): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve) => {
     setTimeout(resolve, millisec);
   });
 }
@@ -32,6 +32,15 @@ describe('seq', () => {
     expect(ids.id().split('-')[1]).to.equal('01');
     await sleep(1000);
     expect(ids.id().split('-')[1]).to.equal('00');
+  });
+
+  it('throw error on invalid usage', () => {
+    expect(() =>
+      anyid().encode('A0').startWith(10).max(19).id()
+    ).to.throw(/follow/);
+    expect(() =>
+      anyid().encode('A0').seq().resetByTime().id()
+    ).to.throw(/time/);
   });
 
 });

@@ -1,4 +1,4 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as _ from 'lodash';
 import * as encode from '../src/encode';
 
@@ -60,7 +60,7 @@ describe('encode', () => {
     const buf = Buffer.from(bytes);
     const code = codec.encode(buf);
     expect(code).to.equal('04gfWJD');
-    expect(codec.decode(code)).to.eql(bytes);
+    expect(codec.decode(code)).to.eql(buf);
   });
 
   it('calculate bytes required', () => {

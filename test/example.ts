@@ -4,6 +4,8 @@ import { anyid } from '../src/index';
 // To run:
 //     gulp test -m example
 
+// tslint:disable:no-console
+
 describe('[anyid examples]', () => {
 
   it('Single section, random value', () => {

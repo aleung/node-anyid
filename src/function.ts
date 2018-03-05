@@ -9,8 +9,8 @@ declare module './core' {
 }
 
 class FunctionValue extends Value {
-  constructor(private f: ValueCallback) {
-    super();
+  constructor(owner: AnyId, private f: ValueCallback) {
+    super(owner);
   }
 
   value(): Buffer {
@@ -20,7 +20,7 @@ class FunctionValue extends Value {
 
 export class Func {
   of(this: AnyId, f: ValueCallback): AnyId {
-    this.addValue(new FunctionValue(f));
+    this.addValue(new FunctionValue(this, f));
     return this;
   }
 }

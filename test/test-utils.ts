@@ -1,6 +1,5 @@
-import {expect} from 'chai';
-import * as _ from 'lodash';
-import {normalize, concatBits, uintToBuffer} from '../src/utils';
+import { expect } from 'chai';
+import { normalize, concatBits, uintToBuffer } from '../src/utils';
 
 describe('utils', () => {
 

@@ -12,7 +12,7 @@ describe('random', () => {
   });
 
   it('throw error on missing length or bits', () => {
-    expect( () =>
+    expect(() =>
       anyid().encode('Aa0').random().id()
     ).to.throw(/.*/);
   });

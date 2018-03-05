@@ -9,15 +9,19 @@ declare module './core' {
 }
 
 class RandomValue extends Value {
+  constructor(owner: AnyId) {
+    super(owner);
+  }
+
   value(): Buffer {
     assert(this.bits, 'Length or bits must be set for random');
-    return crypto.randomBytes(Math.ceil(this.bits / 8));
+    return crypto.randomBytes(Math.ceil(this.bits! / 8));
   }
 }
 
 export class Random {
   random(this: AnyId): AnyId {
-    this.addValue(new RandomValue());
+    this.addValue(new RandomValue(this));
     return this;
   }
 }

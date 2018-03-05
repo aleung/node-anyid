@@ -16,7 +16,7 @@ function logBin(n: number) {
  * 0B0011
  * ......
  */
-const BIT_MASKS = _.range(0, 31).map(i => ~ (0xFFFFFFFF << i));
+const BIT_MASKS = _.range(0, 31).map((i) => ~(0xFFFFFFFF << i));
 
 /**
  * Input a bit stream which is align right in a Buffer.
@@ -71,12 +71,12 @@ export function concatBits(buf1: Buffer, bits1: number, buf2: Buffer, bits2: num
 
     target4bytes =
       (target4bytes & BIT_MASKS[filledBitsInTarget] |
-      source4bytes << filledBitsInTarget)
+        source4bytes << filledBitsInTarget)
       >>> 0;
     buf.writeUInt32BE(target4bytes, targetOffset);
 
     if (filledBitsInTarget > 0) {
-      target4bytes = source4bytes >>> ( 32 - filledBitsInTarget);
+      target4bytes = source4bytes >>> (32 - filledBitsInTarget);
       const bytesToWrite = targetOffset > 4 ? 4 : targetOffset;
       buf.writeUIntBE(target4bytes, targetOffset - bytesToWrite, bytesToWrite);
     }

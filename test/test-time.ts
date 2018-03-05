@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { anyid } from '../src/index';
 
+// tslint:disable:radix
+
 describe('time', () => {
 
   it('time', () => {

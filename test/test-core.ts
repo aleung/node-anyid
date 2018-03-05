@@ -8,8 +8,8 @@ describe('core', () => {
 
   describe('Value', () => {
     it('bits', () => {
-      const testValue = new FilledValue(0);
       const ids = anyid().encode('0-90'); // charset size is 8, 4 bits per char
+      const testValue = new FilledValue(ids, 0);
       ids.addValue(testValue);
       expect(testValue.bits).to.be.undefined;
       ids.length(4);
@@ -80,6 +80,12 @@ describe('core', () => {
           .fill()
           .id()
       ).to.throw(/delimiter/);
+    });
+
+    it('throw error on missing encode', () => {
+      expect(() =>
+        anyid().length(3).random().id()
+      ).to.throw(/encode/);
     });
 
   });

@@ -17,4 +17,4 @@ export function anyid(): AnyId {
   return new AnyId();
 }
 
-export {AnyId}
+export { AnyId };

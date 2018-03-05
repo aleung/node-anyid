@@ -2,7 +2,6 @@ import * as assert from 'assert';
 import { AnyId, Value } from './core';
 import { TimeValue } from './time';
 
-
 declare module './core' {
   interface AnyId {
     seq(): AnyId;
@@ -18,8 +17,8 @@ class SequenceValue extends Value {
   private upperBound = 2 ^ 32;
   private seq: number | undefined;
   private _resetByTime = false;
-  private timeValue: TimeValue;
-  private time: Buffer;
+  private timeValue: TimeValue | undefined;
+  private time: Buffer | undefined;
   private initialized = false;
 
   startWith(n: number): void {
@@ -32,6 +31,7 @@ class SequenceValue extends Value {
 
   resetByTime(): void {
     this._resetByTime = true;
+    // it's not the time to call init()
   }
 
   value(): Buffer {
@@ -46,7 +46,7 @@ class SequenceValue extends Value {
 
   private init(): void {
     if (this._resetByTime) {
-      this.timeValue = <TimeValue>this.parent.findValueByType(TimeValue.name);
+      this.timeValue = <TimeValue>this.owner.findValueByType(TimeValue.name);
       assert(this.timeValue, 'resetByTime() requires time()');
       this.time = this.timeValue.value();
     }
@@ -55,8 +55,8 @@ class SequenceValue extends Value {
 
   private toBeReset(): boolean {
     if (this._resetByTime) {
-      const now = this.timeValue.value();
-      if (this.time.compare(now) !== 0) {
+      const now = this.timeValue!.value();
+      if (this.time!.compare(now) !== 0) {
         this.time = now;
         return true;
       }
@@ -69,7 +69,7 @@ class SequenceValue extends Value {
 export class Sequence {
 
   seq(this: AnyId): AnyId {
-    this.addValue(new SequenceValue());
+    this.addValue(new SequenceValue(this));
     return this;
   }
 

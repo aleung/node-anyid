@@ -1,6 +1,8 @@
 ## 1.0.2 (2018-3-5)
 
 - [ISSUE] Fixed AssertionError on variable value being zero.
+- [ENHANCEMENT] Upgrade TypeScript; change tool chain from gulp to npm script
+- [ENHANCEMENT] Fix potential issue found by TypeScript strict mode and tslint
 
 ## 1.0.1 (2016-11-1)
 

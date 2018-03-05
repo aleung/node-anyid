@@ -8,8 +8,8 @@ declare module './core' {
 }
 
 class FixedValue extends Value {
-  constructor(private v: Buffer) {
-    super();
+  constructor(owner: AnyId, private v: Buffer) {
+    super(owner);
   }
 
   value(): Buffer {
@@ -19,7 +19,7 @@ class FixedValue extends Value {
 
 export class Fixed {
   fixed(this: AnyId, v: number | Buffer): AnyId {
-    this.addValue(new FixedValue(toBuffer(v)));
+    this.addValue(new FixedValue(this, toBuffer(v)));
     return this;
   }
 }

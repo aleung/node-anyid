@@ -2,7 +2,6 @@ import * as assert from 'assert';
 import * as _ from 'lodash';
 import { AnyId, Value, IdArg } from './core';
 
-
 declare module './core' {
   interface AnyId {
     variable(name?: string): AnyId;
@@ -10,8 +9,8 @@ declare module './core' {
 }
 
 class VariableValue extends Value {
-  constructor(private name?: string) {
-    super();
+  constructor(owner: AnyId, private name?: string) {
+    super(owner);
   }
 
   value(arg: IdArg): Buffer {
@@ -35,7 +34,7 @@ class VariableValue extends Value {
 
 export class Variable {
   variable(this: AnyId, name?: string): AnyId {
-    this.addValue(new VariableValue(name));
+    this.addValue(new VariableValue(this, name));
     return this;
   }
 }

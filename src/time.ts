@@ -1,7 +1,6 @@
 import * as assert from 'assert';
 import { AnyId, Value } from './core';
 
-
 export type TimeUnit = 'ms' | 's' | 'm' | 'h' | 'd';
 
 declare module './core' {
@@ -14,15 +13,14 @@ declare module './core' {
 export class TimeValue extends Value {
   private epoch = 0;
 
-  constructor(private divisor: number) {
-    super();
+  constructor(owner: AnyId, private divisor: number) {
+    super(owner);
   }
 
   value(): Buffer {
     const ms = Date.now() - this.epoch;
     const t = (this.divisor > 1) ? Math.floor(ms / this.divisor) : ms;
-    const v = this.returnValue(t);
-    return v;
+    return this.returnValue(t);
   }
 
   since(t: Date): void {
@@ -40,7 +38,7 @@ export class Time {
       case 'h': divisor = 3600000; break;
       case 'd': divisor = 86400000; break;
     }
-    this.addValue(new TimeValue(divisor));
+    this.addValue(new TimeValue(this, divisor));
     return this;
   }
 

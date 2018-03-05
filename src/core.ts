@@ -3,12 +3,12 @@ import * as _ from 'lodash';
 import { Codec, codec } from './encode';
 import { concatBits, toBuffer } from './utils';
 
-
-export type IdArg = number | Buffer | {[name: string]: any};
+export type IdArg = number | Buffer | { [name: string]: any };
 
 export abstract class Value {
-  parent: AnyId;
   private _bits: number | undefined;
+
+  constructor(protected owner: AnyId) { }
 
   abstract value(arg?: IdArg): Buffer;
 
@@ -18,7 +18,7 @@ export abstract class Value {
 
   get bits(): number | undefined {
     if (!this._bits) {
-      this._bits = this.parent.sectionBitLength();
+      this._bits = this.owner.sectionBitLength();
     }
     return this._bits;
   }
@@ -30,38 +30,43 @@ export abstract class Value {
 
 class Delimiter {
   constructor(private delimiter: string) { }
-  id() { return this.delimiter; }
+  id(_unused?: IdArg): string { return this.delimiter; }
 }
 
 export class AnyId {
 
   static use(mixin: any): void {
-    let prototype: any = AnyId.prototype;
-    Object.getOwnPropertyNames(mixin.prototype).forEach(name => {
+    const prototype: any = AnyId.prototype;
+    Object.getOwnPropertyNames(mixin.prototype).forEach((name) => {
       prototype[name] = mixin.prototype[name];
     });
   }
 
-  private _parent: AnyId;
+  private _parent: AnyId | undefined;
   private _codec: Codec | undefined;
-  private _length: number;
-  private _sections: (AnyId | Delimiter)[] = [];
+  private _length: number | undefined;
+  private _sections: Array<AnyId | Delimiter> = [];
   private _values: Value[] = [];
   private _bits: number | undefined;
 
   private get codec(): Codec {
-    return this._codec ? this._codec : this._parent.codec;
+    try {
+      return this._codec ? this._codec : this._parent!.codec;
+    } catch {
+      throw new Error('Missing encode()');
+    }
   }
 
   id(arg?: IdArg): string {
     if (this.hasValue()) {
-      const {bits, buf} = _.reduceRight(this._values,
+      // tslint:disable-next-line:no-unused
+      const { bits, buf } = _.reduceRight(this._values,
         (result: { bits: number, buf: Buffer }, value: Value) => {
           const v = value.value(arg);
-          const bits = value.bits || v.length * 8;
+          const b = value.bits || v.length * 8;
           return {
-            bits: bits + result.bits,
-            buf: concatBits(v, bits, result.buf, result.bits)
+            bits: b + result.bits,
+            buf: concatBits(v, b, result.buf, result.bits)
           };
         }, { bits: 0, buf: Buffer.alloc(0) });
       const c = this.codec.encode(buf);
@@ -112,33 +117,24 @@ export class AnyId {
 
   // ---- below methods are not public API ----
 
-  private hasSection(): boolean {
-    return this._sections.length > 0;
-  }
-
-  private hasValue(): boolean {
-    return this._values.length > 0;
-  }
-
   addValue(value: Value): void {
     assert(!this.hasSection(), 'Section/delimiter already exist. Value need to be put inside section');
-    value.parent = this;
     value.bits = this._bits;
     this._bits = undefined;
     this._values.push(value);
   }
 
-  lastValue(): Value {
+  lastValue(): Value | undefined {
     return _.last(this._values);
   }
 
   findValueByType(type: string): Value | undefined {
-    for (let v of this._values) {
+    for (const v of this._values) {
       if (v.constructor.name === type) {
         return v;
       }
     }
-    for (let s of this._sections) {
+    for (const s of this._sections) {
       if (s instanceof AnyId) {
         const v = s.findValueByType(type);
         if (v) {
@@ -152,4 +148,13 @@ export class AnyId {
   sectionBitLength(): number | undefined {
     return this._length ? this.codec.bytesForLength(this._length) * 8 : undefined;
   }
+
+  private hasSection(): boolean {
+    return this._sections.length > 0;
+  }
+
+  private hasValue(): boolean {
+    return this._values.length > 0;
+  }
+
 }

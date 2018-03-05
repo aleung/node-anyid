@@ -103,3 +103,18 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+node_modules/
+package-lock.json
+*.heapsnapshot
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.nyc_output/
+lib/
+dist/
+package/
+build/
+reports/
+*.tmp
+*.bak
