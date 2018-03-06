@@ -3,10 +3,9 @@
 
 [![npm version](https://img.shields.io/npm/v/anyid.svg?maxAge=86400)](https://www.npmjs.com/package/anyid)
 [![travis ci](https://travis-ci.org/aleung/node-anyid.svg)](https://travis-ci.org/aleung/node-anyid)
-[![codecov](https://codecov.io/gh/aleung/node-anyid/branch/master/graph/badge.svg)](https://codecov.io/gh/aleung/node-anyid)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f0bb69b71c9a4db9a7315a46b47153ac)](https://app.codacy.com/app/leoliang/node-anyid?utm_source=github.com&utm_medium=referral&utm_content=aleung/node-anyid&utm_campaign=badger)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/f0bb69b71c9a4db9a7315a46b47153ac)](https://www.codacy.com/app/leoliang/node-anyid?utm_source=github.com&utm_medium=referral&utm_content=aleung/node-anyid&utm_campaign=Badge_Coverage)
 [![Dependency Status](https://dependencyci.com/github/aleung/node-anyid/badge)](https://dependencyci.com/github/aleung/node-anyid)
-[![David](https://david-dm.org/aleung/node-anyid.svg)](https://david-dm.org/aleung/node-anyid)
-![ES6](https://img.shields.io/badge/ES-6-yellow.svg)
 
 _Requires node.js v5 or newer_
 

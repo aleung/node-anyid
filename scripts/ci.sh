@@ -16,7 +16,9 @@ echo '(Detail log and report are generated under reports folder)'
 
 mkdir -p reports
 
-nyc --reporter=text-summary --reporter=html --report-dir=reports/coverage mocha --exit -r source-map-support/register --reporter mochawesome --reporter-options reportDir=reports/testcase,reportFilename=index,quiet=true 'build/test/**/test-*.js' 3>&2 2>&1 1>&3- | tee reports/testlog.json
+nyc --reporter=text-summary --reporter=lcovonly --report-dir=reports/coverage mocha --exit -r source-map-support/register --reporter mochawesome --reporter-options reportDir=reports/testcase,reportFilename=index,quiet=true 'build/test/**/test-*.js' 3>&2 2>&1 1>&3- | tee reports/testlog.json
+
+cat reports/coverage/lcov.info | codacy-coverage
 
 echo '>>> Linting...'
 
