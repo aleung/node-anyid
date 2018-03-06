@@ -4,7 +4,6 @@ node_js:
   - "8"
   - "6"
 before_script:
-  - npm i -g typings
-  - typings install
+  - npm i -g yarn
 script:
-  - npm run ci
+  - yarn ci
