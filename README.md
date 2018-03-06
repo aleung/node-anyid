@@ -1,6 +1,7 @@
 
 # AnyID - ID generator for node.js
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f0bb69b71c9a4db9a7315a46b47153ac)](https://app.codacy.com/app/leoliang/node-anyid?utm_source=github.com&utm_medium=referral&utm_content=aleung/node-anyid&utm_campaign=badger)
 [![npm version](https://img.shields.io/npm/v/anyid.svg?maxAge=86400)](https://www.npmjs.com/package/anyid)
 [![travis ci](https://travis-ci.org/aleung/node-anyid.svg)](https://travis-ci.org/aleung/node-anyid)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f0bb69b71c9a4db9a7315a46b47153ac)](https://app.codacy.com/app/leoliang/node-anyid?utm_source=github.com&utm_medium=referral&utm_content=aleung/node-anyid&utm_campaign=badger)
