@@ -1,3 +1,7 @@
+## 1.0.3 (2018-3-14)
+
+- [ISSUE] Republish to fix broken 1.0.2 (#1)
+
 ## 1.0.2 (2018-3-5)
 
 - [ISSUE] Fixed AssertionError on variable value being zero.

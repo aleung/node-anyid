@@ -1,6 +1,6 @@
 {
   "name": "anyid",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ID generator for node.js",
   "keywords": [
     "id",
