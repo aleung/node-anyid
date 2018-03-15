@@ -1,7 +1,7 @@
 {
   "name": "anyid",
   "version": "1.0.3",
-  "description": "ID generator for node.js",
+  "description": "A simple and flexible API to generate various kinds of string ID / code.",
   "keywords": [
     "id",
     "generator",
