@@ -1,6 +1,6 @@
 {
   "name": "anyid",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A simple and flexible API to generate various kinds of string ID / code.",
   "keywords": [
     "id",
@@ -28,6 +28,7 @@
   },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "runkitExampleFilename": "example.js",
   "engines": {
     "node": ">=5.0.0"
   },

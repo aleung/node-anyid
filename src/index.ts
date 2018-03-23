@@ -13,8 +13,11 @@ AnyId.use(Sequence);
 AnyId.use(Func);
 AnyId.use(Variable);
 
-export function anyid(): AnyId {
+function anyid(): AnyId {
   return new AnyId();
 }
 
-export { AnyId };
+export {
+  AnyId,
+  anyid
+};

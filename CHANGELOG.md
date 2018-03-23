@@ -1,3 +1,7 @@
+## 1.0.5 (2018-3-23)
+
+- Add example for RunKit
+
 ## 1.0.3 (2018-3-14)
 
 - [ISSUE] Republish to fix broken 1.0.2 (#1)
