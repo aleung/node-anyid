@@ -327,9 +327,9 @@ It's Twitter Snowflake style ID with timestamp, sequence and worker.
 ``` js
 const ids = anyid()
   .encode('0')
-  .bit(41).time().since(new Date('2016-7-1'))
-  .bit(12).seq().resetByTime();
-  .bit(10).fix(workerId);
+  .bits(41).time().since(new Date('2016-7-1'))
+  .bits(12).seq().resetByTime();
+  .bits(10).fix(workerId);
 ```
 
 Timestamp is since 2016-7-1. Sequence is reset every millisecond.
