@@ -19,5 +19,6 @@ function anyid(): AnyId {
 
 export {
   AnyId,
+  Time, Random, Fixed, Sequence, Func, Variable,
   anyid
 };

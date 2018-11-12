@@ -1,3 +1,7 @@
+## 1.0.6 (2018-11-12)
+
+- [ISSUE] Typings of mixin doesn't work (#8)
+
 ## 1.0.5 (2018-3-23)
 
 - Add example for RunKit
