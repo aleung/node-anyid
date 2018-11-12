@@ -90,7 +90,7 @@ Example:
 * `Aa0` = A-Z a-z 0-9
 * `0A-IO` = 0-9 A-Z, excludes `I` and `O`
 * `0+ABCDEF` = 0-9 A-F
-* `A+01-IO` = A-Z 1 2, excludes `I` and `O`
+* `A+012-IO` = A-Z 0 1 2, excludes `I` and `O`
 
 ## Section and Delimiter
 
@@ -341,9 +341,7 @@ Timestamp is since 2016-7-1. Sequence is reset every millisecond.
 ID contains second and nanosecond. Nanosecond is retrieved by a function.
 
 ``` js
-const nanotime = () => {
-  return process.hrtime()[1];
-};
+const nanotime = () => process.hrtime()[1];
 
 const ids = anyid()
   .encode('Aa0')
