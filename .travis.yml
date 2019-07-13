@@ -9,3 +9,5 @@ before_script:
   - npm i -g yarn
 script:
   - yarn ci
+after_success:
+  - yarn coveralls

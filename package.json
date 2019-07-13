@@ -15,6 +15,7 @@
   "scripts": {
     "test": "scripty",
     "ci": "scripty",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "clean": "rm -rf lib build reports *.heapsnapshot",
     "build": "scripty",
     "testall": "scripty",
@@ -33,7 +34,7 @@
     "node": ">=5.0.0"
   },
   "dependencies": {
-    "base-x": "3.0.6",
+    "base-x": "^3.0.6",
     "lodash": "^4.17.14"
   },
   "devDependencies": {
@@ -42,9 +43,9 @@
     "@types/mocha": "5.2.7",
     "@types/node": "12.6.2",
     "chai": "*",
-    "codacy-coverage": "3.4.0",
+    "coveralls": "^3.0.5",
     "doctoc": "1.4.0",
-    "mocha": "*",
+    "mocha": "6.1.4",
     "mochawesome": "4.0.1",
     "nyc": "14.1.1",
     "scripty": "1.9.1",

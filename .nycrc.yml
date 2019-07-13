@@ -1,0 +1,10 @@
+---
+include:
+- src/**
+- build/**
+extension:
+- ".ts"
+reporter:
+- text-summary
+- html
+report-dir: reports/coverage
