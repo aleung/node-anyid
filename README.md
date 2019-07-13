@@ -65,7 +65,7 @@ If you aren't using ES6, this is the way to require it:
 var anyid = require('anyid').anyid;
 ```
 
-[Try it in your browser](https://npm.runkit.com/anyid).
+**>>> [Try it in your browser](https://npm.runkit.com/anyid). <<<**
 
 ## Encode
 
