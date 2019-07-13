@@ -1,3 +1,9 @@
+## 1.0.7 (2019-7-13)
+
+- [ISSUE] Update dependencies to fix vulnerabilities
+- [ENHANCEMENT] Add node.js 10 & 11 as targets in CI
+- [ISSUE] Fix error in `concatBits` on Node.js 10+
+
 ## 1.0.6 (2018-11-12)
 
 - [ISSUE] Typings of mixin doesn't work (#8)

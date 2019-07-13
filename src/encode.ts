@@ -1,4 +1,4 @@
-import * as baseX from 'base-x';
+import base from 'base-x';
 import * as _ from 'lodash';
 
 interface Codec {
@@ -49,7 +49,7 @@ function createCharset(s: string): string {
 function codec(charset: string): Codec {
   const chars = createCharset(charset);
   // it's a hack, see https://stackoverflow.com/a/37939791/94148
-  const anyBase = <Codec><any>baseX(chars);
+  const anyBase = <Codec><any>base(chars);
   anyBase.bytesForLength = (n: number) => Math.ceil(Math.log2(chars.length) * n / 8);
   anyBase.padChar = () => chars[0];
   return anyBase;

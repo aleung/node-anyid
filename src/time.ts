@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import { AnyId, Value } from './core';
 
 export type TimeUnit = 'ms' | 's' | 'm' | 'h' | 'd';

@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import * as _ from 'lodash';
 
 // for debug
@@ -75,7 +75,7 @@ export function concatBits(buf1: Buffer, bits1: number, buf2: Buffer, bits2: num
       >>> 0;
     buf.writeUInt32BE(target4bytes, targetOffset);
 
-    if (filledBitsInTarget > 0) {
+    if (filledBitsInTarget > 0 && targetOffset > 0) {
       target4bytes = source4bytes >>> (32 - filledBitsInTarget);
       const bytesToWrite = targetOffset > 4 ? 4 : targetOffset;
       buf.writeUIntBE(target4bytes, targetOffset - bytesToWrite, bytesToWrite);
