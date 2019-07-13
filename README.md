@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/aleung/node-anyid/badge.svg)](https://coveralls.io/github/aleung/node-anyid)
 [![Try on Runkit](https://badge.runkitcdn.com/anyid.svg)](https://npm.runkit.com/anyid)
 
-_Verified on node.js v6, v8, v10 and v11_
+_Verified on node.js v6, v8, v10, v11 and v12_
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
