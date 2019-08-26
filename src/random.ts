@@ -1,5 +1,5 @@
 import assert from 'assert';
-import * as crypto from 'crypto';
+import { randomBytes } from 'crypto';
 import { AnyId, Value } from './core';
 
 declare module './core' {
@@ -15,7 +15,7 @@ class RandomValue extends Value {
 
   value(): Buffer {
     assert(this.bits, 'Length or bits must be set for random');
-    return crypto.randomBytes(Math.ceil(this.bits! / 8));
+    return randomBytes(Math.ceil(this.bits! / 8));
   }
 }
 
